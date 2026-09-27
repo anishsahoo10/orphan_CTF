@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header-row">
+  <div class="page-title-group">
+    <h1>SYSTEM STATUS &amp; DAEMON TELEMETRY</h1>
+    <p>Operational health metrics, process listeners, and network interface directives.</p>
+  </div>
+  <div>
+    <a href="/api/services" class="btn" target="_blank">[RAW JSON SERVICES]</a>
+  </div>
+</div>
+
+<div class="notice-box">
+  <strong>[DAEMON MONITOR]</strong> Local watchdog polls internal sockets every 60 seconds. Local audit journal records currently store {{ audit_count }} committed transactions.
+</div>
+
+<!-- Telemetry Metric Cards -->
+<div class="grid-3" style="margin-bottom: 20px;">
+  <div class="panel" style="margin-bottom: 0;">
+    <div class="panel-header">
+      <span>HOST METRICS</span>
+      <span class="tag">SMP</span>
+    </div>
+    <div class="panel-body">
+      <div class="kv-table">
+        <div class="row">
+          <span class="k">Architecture:</span>
+          <span class="v">x86_64 SMP Linux</span>
+        </div>
+        <div class="row">
+          <span class="k">Kernel Profile:</span>
+          <span class="v dim">4.15.0-axm-legacy</span>
+        </div>
+        <div class="row">
+          <span class="k">Storage Engine:</span>
+          <span class="v">SQLite 3.x Standalone</span>
+        </div>
+        <div class="row">
+          <span class="k">Process Affinity:</span>
+          <span class="v"><span class="status-chip active">ISOLATED</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom: 0;">
+    <div class="panel-header">
+      <span>NETWORK INTERFACES</span>
+      <span class="tag">NET-CFG</span>
+    </div>
+    <div class="panel-body">
+      <div class="kv-table">
+        <div class="row">
+          <span class="k">Loopback (lo):</span>
+          <span class="v mono">127.0.0.1/8</span>
+        </div>
+        <div class="row">
+          <span class="k">Subnet (eth0):</span>
+          <span class="v mono" style="color: var(--accent-green-bright);">10.0.4.7/24</span>
+        </div>
+        <div class="row">
+          <span class="k">Gateway:</span>
+          <span class="v mono dim">10.0.4.1 (Internal)</span>
+        </div>
+        <div class="row">
+          <span class="k">WAN Egress:</span>
+          <span class="v"><span class="status-chip danger">RESTRICTED</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom: 0;">
+    <div class="panel-header">
+      <span>SUPERVISOR STATE</span>
+      <span class="tag">MGMT</span>
+    </div>
+    <div class="panel-body">
+      <div class="kv-table">
+        <div class="row">
+          <span class="k">Node ID:</span>
+          <span class="v" style="color: var(--accent-green-bright);">{{ node_id }}</span>
+        </div>
+        <div class="row">
+          <span class="k">Remote Supervisor:</span>
+          <span class="v"><span class="status-chip alert">OFFLINE</span></span>
+        </div>
+        <div class="row">
+          <span class="k">Directory Sync:</span>
+          <span class="v"><span class="status-chip danger">SEVERED</span></span>
+        </div>
+        <div class="row">
+          <span class="k">Decommission:</span>
+          <span class="v"><span class="status-chip muted">ABANDONED</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Services Table -->
+<div class="panel">
+  <div class="panel-header">
+    <span>SUBSYSTEM DAEMONS &amp; PROCESS MATRIX</span>
+    <span class="tag">COUNT: {{ services | length }}</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="table-responsive">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>SRV ID</th>
+            <th>SERVICE NAME</th>
+            <th>OPERATIONAL STATUS</th>
+            <th>DAEMON REVISION</th>
+            <th>LAST HEALTH CHECK</th>
+            <th>CUSTODIAN / OWNER</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in services %}
+          <tr>
+            <td class="mono dim">SRV-0{{ s.id }}</td>
+            <td><strong>{{ s.name }}</strong></td>
+            <td><span class="status-chip active">● {{ s.status }}</span></td>
+            <td class="mono dim">{{ s.version }}</td>
+            <td class="mono dim">{{ s.last_check }}</td>
+            <td><code style="color: var(--accent-blue);">{{ s.owner }}</code></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

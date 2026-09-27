@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="page-header-row">
+  <div class="page-title-group">
+    <h1>EMPLOYEE CONSOLE &bull; DASHBOARD</h1>
+    <p>Authenticated operator interface. Session bound to user: <code>{{ current_user.username }}</code> (ROLE: {{ current_user.role | upper }}).</p>
+  </div>
+  <div>
+    <a href="/logout" class="btn" style="color: var(--accent-red); border-color: #521c21;">TERMINATE SESSION</a>
+  </div>
+</div>
+
+<div class="notice-box">
+  <strong>[AUTHENTICATED ACCESS]</strong> Session active. Local audit daemon records all console requests and terminal transactions. HR active directory connection: OFFLINE.
+</div>
+
+<!-- Section 1: Personnel Directory -->
+<div class="panel">
+  <div class="panel-header">
+    <span>EMPLOYEE DIRECTORY // HISTORICAL ASSIGNMENTS</span>
+    <span class="tag">RECORDS: {{ employees | length }}</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="table-responsive">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>EMPLOYEE ID</th>
+            <th>NAME</th>
+            <th>DEPARTMENT</th>
+            <th>CLEARANCE</th>
+            <th>EMPLOYMENT STATUS</th>
+            <th>INTERNAL EMAIL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in employees %}
+          <tr>
+            <td class="mono dim">{{ emp.employee_id }}</td>
+            <td><strong style="color: var(--text-primary);">{{ emp.name }}</strong></td>
+            <td>{{ emp.department }}</td>
+            <td><span class="status-chip muted">{{ emp.clearance_level }}</span></td>
+            <td>
+              {% if "SEPARATED" in emp.status or "ARCHIVED" in emp.status %}
+                <span class="status-chip danger">{{ emp.status }}</span>
+              {% elif "DEPARTED" in emp.status or "INACTIVE" in emp.status %}
+                <span class="status-chip alert">{{ emp.status }}</span>
+              {% else %}
+                <span class="status-chip active">{{ emp.status }}</span>
+              {% endif %}
+            </td>
+            <td class="mono"><a href="mailto:{{ emp.email }}">{{ emp.email }}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Services & Quick Documents Grid -->
+<div class="grid-2">
+  <!-- Subsystem Daemons -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>SUBSYSTEM SERVICES</span>
+      <span class="tag">ACTIVE: {{ services | length }}</span>
+    </div>
+    <div class="panel-body" style="padding: 0;">
+      <div class="table-responsive">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>SERVICE</th>
+              <th>STATUS</th>
+              <th>VERSION</th>
+              <th>OWNER</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in services %}
+            <tr>
+              <td><strong>{{ s.name }}</strong></td>
+              <td><span class="status-chip active">{{ s.status }}</span></td>
+              <td class="mono dim">{{ s.version }}</td>
+              <td><code style="color: var(--accent-blue);">{{ s.owner }}</code></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Archived Resources -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>ARCHIVED DOCUMENTS</span>
+      <span class="tag">RECORDS: {{ documents | length }}</span>
+    </div>
+    <div class="panel-body" style="padding: 0;">
+      <div class="table-responsive">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>DOCUMENT</th>
+              <th>CATEGORY</th>
+              <th>DATE</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for doc in documents %}
+            <tr>
+              <td><strong>{{ doc.title }}</strong></td>
+              <td><span class="status-chip muted">{{ doc.category }}</span></td>
+              <td class="mono dim">{{ doc.created_date }}</td>
+              <td><a href="/documents/{{ doc.slug }}">[VIEW]</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Audit Journal -->
+<div class="panel">
+  <div class="panel-header">
+    <span>SYSTEM AUDIT JOURNAL // LOCAL BUFFER</span>
+    <span class="tag">RECENT 10 EVENTS</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="table-responsive">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>TIMESTAMP</th>
+            <th>EVENT TYPE</th>
+            <th>SOURCE IP</th>
+            <th>TRANSACTION DETAILS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in recent_logs %}
+          <tr>
+            <td class="mono dim" style="white-space: nowrap;">{{ log.timestamp }}</td>
+            <td>
+              {% if "AUTH_FAILED" in log.event_type %}
+                <span class="status-chip danger">{{ log.event_type }}</span>
+              {% elif "AUTH_SUCCESS" in log.event_type %}
+                <span class="status-chip active">{{ log.event_type }}</span>
+              {% else %}
+                <span class="status-chip muted">{{ log.event_type }}</span>
+              {% endif %}
+            </td>
+            <td class="mono" style="color: var(--accent-blue);">{{ log.source_ip }}</td>
+            <td>{{ log.details }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

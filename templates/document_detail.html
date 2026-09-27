@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header-row">
+  <div class="page-title-group">
+    <h1>{{ document.title }}</h1>
+    <p>ARCHIVE SLUG: <code>/documents/{{ document.slug }}</code> &bull; AUTHOR: {{ document.author }}</p>
+  </div>
+  <div>
+    <a href="/documents" class="btn">&larr; BACK TO REPOSITORY</a>
+  </div>
+</div>
+
+<div class="grid-2" style="margin-bottom: 24px;">
+  <!-- Record Metadata Card -->
+  <div class="panel" style="margin-bottom: 0;">
+    <div class="panel-header">
+      <span>RECORD SPECIFICATION</span>
+      <span class="tag">{{ document.category }}</span>
+    </div>
+    <div class="panel-body">
+      <div class="kv-table">
+        <div class="row">
+          <span class="k">Record Title:</span>
+          <span class="v">{{ document.title }}</span>
+        </div>
+        <div class="row">
+          <span class="k">Author / Custodian:</span>
+          <span class="v" style="color: var(--accent-cyan);">{{ document.author }}</span>
+        </div>
+        <div class="row">
+          <span class="k">Date Committed:</span>
+          <span class="v mono">{{ document.created_date }}</span>
+        </div>
+        <div class="row">
+          <span class="k">Security Clearance:</span>
+          <span class="v">
+            {% if "CONFIDENTIAL" in document.classification %}
+              <span class="status-chip danger">{{ document.classification }}</span>
+            {% elif "RESTRICTED" in document.classification %}
+              <span class="status-chip alert">{{ document.classification }}</span>
+            {% else %}
+              <span class="status-chip muted">{{ document.classification }}</span>
+            {% endif %}
+          </span>
+        </div>
+        <div class="row">
+          <span class="k">Storage Engine:</span>
+          <span class="v mono dim">Local Flat File / SQLite</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Physical Inspection Photo: Coffee Console Desk -->
+  <div class="hero-visual-card" style="margin-bottom: 0;">
+    <img src="/static/images/coffee_console.jpg" alt="Strong Coffee Operator Desk" class="hero-visual-img" style="height: 190px;">
+    <div class="hero-visual-overlay" style="padding: 12px 16px;">
+      <div>
+        <div class="hero-visual-title" style="font-size: 13px;">INSPECTION EVIDENCE // OPERATOR DESK</div>
+        <div class="hero-visual-subtitle" style="font-size: 10px;">SECTOR-B CONSOLE &bull; LAST CUSTODIAN: D. MERCER</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Document Reader Body -->
+<div class="panel">
+  <div class="panel-header">
+    <span>DOCUMENT PAYLOAD // PLAIN TEXT ARCHIVE</span>
+    <span class="tag">ENCODING: UTF-8</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="document-reader-box">
+{{ document.content }}
+    </div>
+  </div>
+</div>
+{% endblock %}

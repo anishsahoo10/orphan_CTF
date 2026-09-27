@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-panel panel">
+  <div class="panel-header">
+    <span>EMPLOYEE AUTHENTICATION</span>
+    <span class="tag">SEC-GATEWAY-07</span>
+  </div>
+
+  <div class="panel-body">
+    <div class="notice-box" style="margin-bottom: 20px;">
+      Authorized personnel only. Authentication requests are logged to the local audit daemon. Unregistered connection attempts are recorded.
+    </div>
+
+    {% if error %}
+    <div class="notice-box danger" style="margin-bottom: 20px;">
+      <strong>[ERROR]</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/login">
+      <input type="hidden" name="next" value="{{ next_url }}">
+
+      <div class="form-group">
+        <label for="username" class="form-label">Employee Username / Operator ID</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-input" 
+          required 
+          autocomplete="off" 
+          autofocus
+          value="{{ username | default('') }}"
+          placeholder="e.g. operator"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Access Passphrase</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-input" 
+          required 
+          autocomplete="current-password"
+          placeholder="••••••••••••"
+        >
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button type="submit" class="btn btn-primary btn-block">AUTHENTICATE OPERATOR &rarr;</button>
+      </div>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border-subtle); font-size: 11px; color: var(--text-dim); line-height: 1.4;">
+      <div>SECURITY DIRECTIVE: Passphrase recovery is restricted to physical console dispatch. Central directory sync: OFFLINE.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

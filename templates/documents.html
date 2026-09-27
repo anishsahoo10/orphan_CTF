@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- LEGACY NOTE: Direct SQL query parser v1.1 active. Parameter validation suspended pending cloud migration. -->
+
+<div class="page-header-row">
+  <div class="page-title-group">
+    <h1>INTERNAL DOCUMENTATION REPOSITORY</h1>
+    <p>Unpurged local copies of architectural manifests, decommissioning tickets, and audit notes.</p>
+  </div>
+  <div>
+    <a href="/api/documents" class="btn" target="_blank">[API JSON METADATA]</a>
+  </div>
+</div>
+
+<div class="notice-box warning">
+  <strong>[ARCHIVAL ADVISORY]</strong> The files catalogued below represent unpurged local copies preserved in node storage. Corporate document management synchronization ceased upon team dissolution in 2019.
+</div>
+
+<!-- Search & Filter Bar (SQL Injection Target) -->
+<div class="panel" style="margin-bottom: 20px;">
+  <div class="panel-header">
+    <span>ARCHIVE QUERY FILTER // KEYWORD SEARCH</span>
+    <span class="tag">PARSER: LOCAL-v1.1</span>
+  </div>
+  <div class="panel-body">
+    <form method="GET" action="/documents" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <input 
+        type="text" 
+        name="q" 
+        class="form-input" 
+        placeholder="Search manifests, logs, or keywords (e.g. system, maintenance)..." 
+        value="{{ search_query }}"
+        style="flex: 1; min-width: 260px;"
+      >
+      <button type="submit" class="btn btn-primary">FILTER ARCHIVE &rarr;</button>
+      {% if search_query %}
+        <a href="/documents" class="btn">CLEAR FILTER</a>
+      {% endif %}
+    </form>
+
+    {% if search_query %}
+      <div style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">
+        Active filter: <code>{{ search_query }}</code> &bull; Matches returned: <strong>{{ documents | length }}</strong>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- SQL Error Output (Displays syntax errors for error-based SQLi) -->
+{% if sql_error %}
+<div class="notice-box danger">
+  <strong>[QUERY EXCEPTION // LOCAL SQLITE PARSER]</strong>
+  <div style="font-family: var(--font-mono); margin-top: 6px; font-size: 12px; color: #fecdd3;">
+    {{ sql_error }}
+  </div>
+</div>
+{% endif %}
+
+<!-- Documents Data Table -->
+<div class="panel">
+  <div class="panel-header">
+    <span>CATALOGUED INTERNAL DOCUMENTS &amp; MEMOS</span>
+    <span class="tag">RECORDS: {{ documents | length }}</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="table-responsive">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>IDENTIFIER</th>
+            <th>DOCUMENT TITLE</th>
+            <th>CATEGORY</th>
+            <th>CLASSIFICATION</th>
+            <th>ORIGIN DATE</th>
+            <th>AUTHOR</th>
+            <th>ACCESS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doc in documents %}
+          <tr>
+            <td class="mono dim">DOC-{{ doc.slug | upper }}</td>
+            <td>
+              <a href="/documents/{{ doc.slug }}" style="font-weight: 600;">
+                {{ doc.title }}
+              </a>
+            </td>
+            <td><span class="status-chip muted">{{ doc.category }}</span></td>
+            <td>
+              {% if "CONFIDENTIAL" in doc.classification %}
+                <span class="status-chip danger">{{ doc.classification }}</span>
+              {% elif "RESTRICTED" in doc.classification %}
+                <span class="status-chip alert">{{ doc.classification }}</span>
+              {% else %}
+                <span class="status-chip muted">{{ doc.classification }}</span>
+              {% endif %}
+            </td>
+            <td class="mono dim">{{ doc.created_date }}</td>
+            <td>{{ doc.author }}</td>
+            <td>
+              <a href="/documents/{{ doc.slug }}" class="btn" style="padding: 3px 8px; font-size: 11px;">
+                OPEN &rarr;
+              </a>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">
+              NO RECORDS MATCHING QUERY PARAMETER.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header-row">
+  <div class="page-title-group">
+    <h1>INTERNAL RESOURCE NODE &bull; {{ node_id }}</h1>
+    <p>{{ org_name }} &bull; Legacy telecommunications staging server.</p>
+  </div>
+  <div>
+    {% if not current_user %}
+      <a href="/login" class="btn btn-primary">AUTHENTICATE OPERATOR &rarr;</a>
+    {% else %}
+      <a href="/dashboard" class="btn btn-primary">OPEN EMPLOYEE DASHBOARD &rarr;</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Hero Photography Card (Stenciled Strong Coffee Telecom Server Rack) -->
+<div class="hero-visual-card">
+  <img src="/static/images/strong_coffee_server.jpg" alt="Strong Coffee Telecom Server Vault" class="hero-visual-img">
+  <div class="hero-visual-overlay">
+    <div>
+      <div class="hero-visual-title">PHYSICAL FACILITY // SECTOR-B TELECOM CAGE</div>
+      <div class="hero-visual-subtitle">HOST IP: 10.0.4.7 &bull; RACK-04 &bull; AUTHORIZED PERSONNEL ONLY</div>
+    </div>
+    <span class="status-chip active">● NODE ACTIVE</span>
+  </div>
+</div>
+
+<!-- Clean 4-Card Status Deck -->
+<div class="metric-deck">
+  <div class="metric-card">
+    <div class="metric-card-label">Node Identifier</div>
+    <div class="metric-card-value" style="color: var(--accent-green-bright);">{{ node_id }}</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Subsystem Status</div>
+    <div class="metric-card-value">
+      <span class="status-chip active">{{ system_status }}</span>
+    </div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Custodian Record</div>
+    <div class="metric-card-value">
+      <span class="status-chip alert">{{ administrator }}</span>
+    </div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Last Maintenance</div>
+    <div class="metric-card-value">
+      <span class="status-chip alert">{{ last_maintenance }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Concise Narrative Briefing -->
+<div class="briefing-box">
+  <strong>[SECURITY NOTICE]</strong> Discovered during a routine infrastructure audit. Staging node <code>{{ node_id }}</code> was provisioned for legacy telecommunications routing and archival storage. Custodian records have been unassigned since the 2019 departmental dissolution. External WAN ingress remains physically suspended.
+</div>
+
+<!-- Subsystems Quick Status Table -->
+<div class="panel">
+  <div class="panel-header">
+    <span>OPERATIONAL SUBSYSTEMS &amp; LOCAL DAEMONS</span>
+    <span class="tag">{{ services | length }} DAEMONS BOUND</span>
+  </div>
+  <div class="panel-body" style="padding: 0;">
+    <div class="table-responsive">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>DAEMON NAME</th>
+            <th>SERVICE REVISION</th>
+            <th>STATUS</th>
+            <th>HEALTH CHECK</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in services %}
+          <tr>
+            <td><strong>{{ s.name }}</strong></td>
+            <td class="mono dim">{{ s.version }}</td>
+            <td><span class="status-chip active">● {{ s.status }}</span></td>
+            <td class="mono dim">RESPONDING (LOOPBACK)</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Direct Access Actions -->
+<div style="display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap;">
+  <a href="/documents" class="btn" style="flex: 1; justify-content: center;">
+    &rarr; BROWSE ARCHIVAL DOCUMENTS ({{ doc_count }} RECORDS)
+  </a>
+  <a href="/status" class="btn" style="flex: 1; justify-content: center;">
+    &rarr; VIEW SYSTEM DIAGNOSTICS &amp; TELEMETRY
+  </a>
+  {% if not current_user %}
+    <a href="/login" class="btn btn-primary" style="flex: 1; justify-content: center;">
+      &rarr; CONSOLE LOGIN
+    </a>
+  {% else %}
+    <a href="/dashboard" class="btn btn-primary" style="flex: 1; justify-content: center;">
+      &rarr; EMPLOYEE DASHBOARD
+    </a>
+  {% endif %}
+</div>
+{% endblock %}

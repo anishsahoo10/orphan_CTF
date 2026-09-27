@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-panel panel" style="max-width: 620px;">
+  <div class="panel-header" style="background: #231617; border-bottom: 1px solid var(--accent-red);">
+    <span style="color: var(--accent-red);">SUBSYSTEM FAULT // ANOMALY DETECTED</span>
+    <span class="tag" style="color: var(--accent-red); border-color: var(--accent-red);">FAULT</span>
+  </div>
+
+  <div class="panel-body">
+    <div class="notice-box danger">
+      <strong>[DISPATCH FAILED]</strong> The internal subsystem router could not resolve or service the requested node URI.
+    </div>
+
+    <div class="kv-table" style="margin: 20px 0;">
+      <div class="row">
+        <span class="k">System Entity:</span>
+        <span class="v">{{ org_name | default("AXIOM SYSTEMS") }}</span>
+      </div>
+      <div class="row">
+        <span class="k">Node Designation:</span>
+        <span class="v" style="color: var(--accent-green-bright);">{{ node_id | default("AXM-NODE-07") }}</span>
+      </div>
+      <div class="row">
+        <span class="k">Diagnostic Error Code:</span>
+        <span class="v" style="color: var(--accent-red); font-weight: bold;">{{ error_code | default("NODE_UNAVAILABLE") }}</span>
+      </div>
+      <div class="row">
+        <span class="k">Subsystem Reference:</span>
+        <span class="v mono">{{ reference | default("AXM-07") }}</span>
+      </div>
+      <div class="row">
+        <span class="k">Diagnostic Details:</span>
+        <span class="v dim">{{ error_detail | default("Requested resource is unreachable or unindexed.") }}</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+      <a href="/" class="btn">&larr; RETURN TO GATEWAY</a>
+      <a href="/status" class="btn">SYSTEM STATUS</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
