@@ -41,20 +41,39 @@ def get_base_context(request: Request, page_title: str) -> dict:
 
 
 @router.get("/", response_class=HTMLResponse)
-async def home_page(request: Request):
-    """Investigative portal gateway overview."""
-    context = get_base_context(request, "EXECUTIVE ARCHIVE")
+async def home_page(request: Request, q: Optional[str] = None):
+    """Main Archive Search Page (Controlled SQL Injection point)."""
+    context = get_base_context(request, "DECLASSIFIED ARCHIVES")
     
-    mail_count = query_one("SELECT COUNT(*) as count FROM messages")
-    flight_count = query_one("SELECT COUNT(*) as count FROM flights")
-    photo_count = query_one("SELECT COUNT(*) as count FROM photos")
-    recent_flights = query_all("SELECT * FROM flights ORDER BY flight_date DESC LIMIT 3")
+    sql_error = None
+    if q is not None and q.strip() != "":
+        # SQL Injection Point: Unsanitized concatenation
+        try:
+            raw_sql = (
+                f"SELECT id, sender, recipient, timestamp, subject, classification, content "
+                f"FROM messages "
+                f"WHERE subject LIKE '%{q}%' OR content LIKE '%{q}%' "
+                f"ORDER BY id ASC"
+            )
+            records = query_all(raw_sql)
+        except Exception as e:
+            records = []
+            sql_error = str(e)
+    else:
+        # Default view: Standard public leaked records (hiding the confidential IT credentials)
+        records = query_all(
+            """
+            SELECT id, sender, recipient, timestamp, subject, classification, content
+            FROM messages
+            WHERE classification != 'TOP SECRET // RESTRICTED ACCESS'
+            ORDER BY id ASC
+            """
+        )
     
     context.update({
-        "mail_count": mail_count["count"] if mail_count else 0,
-        "flight_count": flight_count["count"] if flight_count else 0,
-        "photo_count": photo_count["count"] if photo_count else 0,
-        "recent_flights": recent_flights,
+        "records": records,
+        "search_query": q or "",
+        "sql_error": sql_error,
     })
     return templates.TemplateResponse(
         request=request,
@@ -64,44 +83,22 @@ async def home_page(request: Request):
 
 
 @router.get("/mail", response_class=HTMLResponse)
-async def mail_page(request: Request, q: Optional[str] = None):
-    """Executive correspondence and call logs archive (Controlled SQL Injection point)."""
-    context = get_base_context(request, "EXECUTIVE CORRESPONDENCE")
-    
-    sql_error = None
-    if q is not None and q.strip() != "":
-        # Controlled SQL Injection point: unescaped search concatenation
-        try:
-            raw_sql = f"SELECT id, sender, recipient, timestamp, subject, classification, content FROM messages WHERE subject LIKE '%{q}%' OR content LIKE '%{q}%' OR sender LIKE '%{q}%' ORDER BY id ASC"
-            messages = query_all(raw_sql)
-        except Exception as e:
-            messages = []
-            sql_error = str(e)
-    else:
-        messages = query_all(
-            """
-            SELECT id, sender, recipient, timestamp, subject, classification, content
-            FROM messages
-            ORDER BY id ASC
-            """
-        )
-    
-    context.update({
-        "messages": messages,
-        "search_query": q or "",
-        "sql_error": sql_error,
-    })
-    return templates.TemplateResponse(
-        request=request,
-        name="mail.html",
-        context=context,
-    )
+async def mail_redirect(request: Request, q: Optional[str] = None):
+    """Redirect /mail queries to root archive."""
+    url = f"/?q={q}" if q else "/"
+    return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
+
+
+@router.get("/documents", response_class=HTMLResponse)
+async def documents_redirect(request: Request):
+    """Redirect legacy document path to root archive."""
+    return RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
 
 
 @router.get("/flights", response_class=HTMLResponse)
 async def flights_page(request: Request):
     """Private aviation registry & passenger flight manifests."""
-    context = get_base_context(request, "PRIVATE AVIATION REGISTRY")
+    context = get_base_context(request, "FLIGHT MANIFESTS")
     flights = query_all("SELECT * FROM flights ORDER BY flight_date DESC")
     context.update({"flights": flights})
     return templates.TemplateResponse(
@@ -113,8 +110,20 @@ async def flights_page(request: Request):
 
 @router.get("/photos", response_class=HTMLResponse)
 async def photos_page(request: Request):
-    """Classified media vault containing surveillance stills and facility layouts."""
-    context = get_base_context(request, "SURVEILLANCE & MEDIA VAULT")
+    """Classified media vault (LOCKED - Requires Username & Password)."""
+    user = get_current_user(request)
+    
+    # Check if user is authenticated
+    if not user:
+        context = get_base_context(request, "SURVEILLANCE VAULT (LOCKED)")
+        return templates.TemplateResponse(
+            request=request,
+            name="photos_locked.html",
+            context=context,
+        )
+
+    # If logged in, show unlocked photos & Flag 5
+    context = get_base_context(request, "SURVEILLANCE EVIDENCE VAULT")
     photos = query_all("SELECT * FROM photos ORDER BY id ASC")
     context.update({"photos": photos})
     return templates.TemplateResponse(
@@ -124,16 +133,10 @@ async def photos_page(request: Request):
     )
 
 
-@router.get("/documents", response_class=HTMLResponse)
-async def documents_redirect(request: Request):
-    """Redirect legacy document path to correspondence archive."""
-    return RedirectResponse(url="/mail", status_code=status.HTTP_302_FOUND)
-
-
 @router.get("/status", response_class=HTMLResponse)
 async def status_page(request: Request):
     """Technical telemetry of node ATG-NODE-01."""
-    context = get_base_context(request, "NODE TELEMETRY")
+    context = get_base_context(request, "SYSTEM TELEMETRY")
     return templates.TemplateResponse(
         request=request,
         name="status.html",

@@ -189,6 +189,26 @@ Notice: All local mailbox archives are scheduled for automated cryptographic zer
 
 Do not retain digital backups of guest manifests or charter manifests on unencrypted workstations. Transfer all legacy data logs to the isolated staging node ATG-NODE-01 immediately.""",
         ),
+        (
+            "sysadmin@aethelgard.internal",
+            "d.mercer@aethelgard.internal",
+            "2024-10-26 23:59:00",
+            "CONFIDENTIAL IT DISPATCH // EMERGENCY ACCESS & CREDENTIALS",
+            "TOP SECRET // RESTRICTED ACCESS",
+            """EMERGENCY DISPATCH // EYES ONLY
+Facility Node: ATG-NODE-01 (Site Bravo Staging Host)
+
+FLAG 2: flag{sql1_3xtr4ct_v4nc3_cr3d3nt14ls_77d2}
+
+SYSTEM OPERATOR CREDENTIALS:
+Username: d.mercer
+Password: telecom2019
+Clearance: Lead Systems Architect / Logistics Director
+
+INSTRUCTIONS FOR DISPATCH LEAD:
+1. Use these credentials to sign in at the Executive Gateway (/login) to unlock the Classified Surveillance Vault (/photos).
+2. Use these same credentials to establish an administrative SSH terminal on port 22 to inspect system daemons.""",
+        ),
     ]
     cursor.executemany(
         """

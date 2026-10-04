@@ -1,63 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="g-flights-container">
-  
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-    <div>
-      <h1 style="font-family: var(--font-main); font-size: 22px; font-weight: 500; color: #fff;">Private Aviation Manifests</h1>
-      <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 4px;">Unredacted charter tracking for Gulfstream N708AG and shuttle rotorcraft.</p>
-    </div>
-    <span class="g-flight-status-pill">
-      4 Logged Flights
-    </span>
-  </div>
+<div class="big-hero">
+  <div class="brand-tag" style="margin-bottom: 12px; display: inline-block;">LOGISTICS &bull; PRIVATE AIRSTRIP LOGS</div>
+  <h1 class="big-heading">Flight Manifests</h1>
+  <p class="hero-sub">
+    Private charter tracking for Gulfstream N708AG and tactical shuttle rotorcraft servicing Site Bravo.
+  </p>
+</div>
 
-  <!-- Google Flights Cards List -->
-  <div style="display: flex; flex-direction: column;">
-    {% for f in flights %}
-    <div class="g-flight-card">
+<!-- Flight Cards Grid -->
+<div style="display: flex; flex-direction: column; gap: 16px;">
+  {% for f in flights %}
+  <div class="dossier-card" style="padding: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
       
-      <!-- Route -->
-      <div class="g-flight-route">
-        <div>
-          <div class="g-airport-code">{{ f.departure_hub.split(' ')[0] }}</div>
-          <div style="font-size: 11px; color: var(--g-text-muted);">{{ f.departure_hub }}</div>
-        </div>
-        
-        <div class="g-flight-arrow">&rarr;</div>
-
-        <div>
-          <div class="g-airport-code" style="color: var(--g-blue);">Site Bravo</div>
-          <div style="font-size: 11px; color: var(--g-text-muted);">{{ f.arrival_hub }}</div>
-        </div>
-      </div>
-
-      <!-- Aircraft & Tail -->
+      <!-- Route & Charter ID -->
       <div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="mono" style="font-weight: 700; color: #fff; font-size: 14px;">{{ f.tail_number }}</span>
-          <span style="font-size: 11px; background: rgba(138, 180, 248, 0.15); color: var(--g-blue); padding: 2px 6px; border-radius: 4px;">
-            {{ f.flight_number }}
-          </span>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+          <span class="pill-badge pill-cyan">{{ f.flight_number }}</span>
+          <span class="mono" style="font-size: 16px; font-weight: 700; color: #fff;">{{ f.tail_number }}</span>
+          <span style="font-size: 13px; color: var(--text-muted);">({{ f.aircraft_model }})</span>
         </div>
-        <div class="g-flight-aircraft">{{ f.aircraft_model }} &bull; Direct Charter</div>
+        <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px;">
+          {{ f.departure_hub }} &rarr; <span style="color: var(--accent-cyan);">{{ f.arrival_hub }}</span>
+        </div>
       </div>
 
-      <!-- Manifest Notes & Date -->
-      <div style="max-width: 380px;">
-        <div style="font-size: 12px; color: var(--g-text-primary); line-height: 1.4;">{{ f.manifest_notes }}</div>
-        <div class="mono" style="font-size: 11px; color: var(--g-text-muted); margin-top: 4px;">Date: {{ f.flight_date }} &bull; {{ f.passenger_count }} Passengers</div>
-      </div>
-
-      <!-- Status -->
-      <div>
-        <span class="g-flight-status-pill">Cleared</span>
+      <!-- Date & Passengers -->
+      <div style="text-align: right;">
+        <span class="pill-badge pill-amber">{{ f.passenger_count }} PASSENGERS</span>
+        <div class="mono" style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Date: {{ f.flight_date }}</div>
       </div>
 
     </div>
-    {% endfor %}
-  </div>
 
+    <!-- Notes -->
+    <div class="card-content-box" style="margin-top: 16px;">
+      <strong>DIRECTIVES &amp; NOTES:</strong> {{ f.manifest_notes }}
+    </div>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}

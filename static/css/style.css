@@ -1,37 +1,35 @@
 /* ==========================================================================
-   AETHELGARD WORKSPACE // GOOGLE SUITE / GMAIL HIGH-FIDELITY CLONE THEME
-   Replicating the clean, iconic Google Workspace (Gmail / Photos / Flights) UI.
-   Dark Mode: #202124 surface, #2d2f31 cards, #8ab4f8 Google blue, #e8eaed text.
+   AETHELGARD ARCHIVES // BOLD EDITORIAL INVESTIGATIVE DESIGN SYSTEM
+   Modern, clean, bold typography, big headings, sleek dark contrast.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
 
 :root {
-  /* Google Dark Mode Palette */
-  --g-bg: #202124;
-  --g-surface: #2d2f31;
-  --g-surface-hover: #35373a;
-  --g-surface-active: #3c4043;
-  --g-border: #3c4043;
-  --g-border-subtle: #2d2f31;
+  --bg-main: #0c0d12;
+  --bg-surface: #13151c;
+  --bg-card: #181a24;
+  --bg-card-hover: #1f2230;
+  --bg-subtle: #252938;
 
-  /* Typography */
-  --g-text-primary: #e8eaed;
-  --g-text-secondary: #9aa0a6;
-  --g-text-muted: #80868b;
-  --g-text-link: #8ab4f8;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-focus: #38bdf8;
 
-  /* Google Brand Colors */
-  --g-blue: #8ab4f8;
-  --g-blue-hover: #aecbfa;
-  --g-blue-bg: rgba(138, 180, 248, 0.12);
-  --g-red: #f28b82;
-  --g-yellow: #fdd663;
-  --g-green: #81c995;
+  --text-main: #ffffff;
+  --text-body: #94a3b8;
+  --text-muted: #64748b;
 
-  --font-main: "Google Sans", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Roboto Mono", Consolas, monospace;
+  --accent-cyan: #38bdf8;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-rose: #f43f5e;
+
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+
+  --radius: 12px;
 }
 
 * {
@@ -41,15 +39,12 @@
 }
 
 body {
-  background-color: var(--g-bg);
-  color: var(--g-text-primary);
+  background-color: var(--bg-main);
+  color: var(--text-body);
   font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.4;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -59,572 +54,365 @@ a {
 }
 
 /* ==========================================================================
-   GOOGLE TOP APP BAR (Search, Logo, Apps Launcher)
+   CLEAN TOP NAVBAR
    ========================================================================== */
-.g-header {
-  height: 64px;
-  min-height: 64px;
-  background-color: var(--g-bg);
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12, 13, 18, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+}
+
+.nav-wrap {
+  max-width: 1300px;
+  margin: 0 auto;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--g-border);
-  gap: 16px;
 }
 
-.g-header-left {
+.brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 240px;
 }
 
-.g-menu-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.brand-symbol {
+  width: 38px;
+  height: 38px;
+  background: #38bdf8;
+  color: #0c0d12;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: var(--g-text-secondary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
 }
 
-.g-menu-btn:hover {
-  background-color: var(--g-surface-hover);
-  color: var(--g-text-primary);
-}
-
-.g-logo-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.g-logo-icon {
-  width: 32px;
-  height: 32px;
-}
-
-.g-logo-text {
-  font-family: var(--font-main);
+.brand-text {
+  font-family: var(--font-heading);
   font-size: 20px;
-  font-weight: 500;
-  color: var(--g-text-primary);
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.02em;
 }
 
-.g-logo-sub {
-  font-size: 13px;
-  color: var(--g-text-secondary);
-  margin-left: 2px;
-  font-weight: 400;
-}
-
-/* Google Centered Search Bar */
-.g-search-center {
-  flex: 1;
-  max-width: 720px;
-  position: relative;
-}
-
-.g-search-box {
-  display: flex;
-  align-items: center;
-  background-color: var(--g-surface);
-  border-radius: 24px;
-  height: 46px;
-  padding: 0 16px;
-  transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.g-search-box:focus-within {
-  background-color: #303134;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-}
-
-.g-search-icon {
-  color: var(--g-text-secondary);
-  margin-right: 12px;
-  display: flex;
-  align-items: center;
-}
-
-.g-search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--g-text-primary);
-}
-
-.g-search-input::placeholder {
-  color: var(--g-text-muted);
-}
-
-.g-search-clear {
-  color: var(--g-text-secondary);
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.g-search-clear:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Google Right Controls (Apps, Profile, Status) */
-.g-header-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 220px;
-  justify-content: flex-end;
-}
-
-.g-icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--g-text-secondary);
-  position: relative;
-}
-
-.g-icon-btn:hover {
-  background-color: var(--g-surface-hover);
-  color: var(--g-text-primary);
-}
-
-.g-apps-dropdown {
-  position: absolute;
-  top: 52px;
-  right: 0;
-  width: 280px;
-  background: var(--g-surface);
-  border: 1px solid var(--g-border);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  display: none;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  z-index: 200;
-}
-
-.g-apps-dropdown.show {
-  display: grid;
-}
-
-.g-app-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 4px;
-  border-radius: 12px;
-  transition: background 0.15s;
-}
-
-.g-app-tile:hover {
-  background: var(--g-surface-hover);
-}
-
-.g-app-tile span {
-  font-size: 11px;
-  color: var(--g-text-primary);
-}
-
-.g-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #1a73e8;
-  color: #fff;
-  font-family: var(--font-main);
-  font-weight: 500;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* ==========================================================================
-   APP SHELL (Collapsible Sidebar + Main View)
-   ========================================================================== */
-.g-shell {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Google Left Sidebar */
-.g-sidebar {
-  width: 256px;
-  background-color: var(--g-bg);
-  padding: 12px 12px 12px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.g-compose-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 24px;
-  height: 52px;
-  background-color: #c2e7ff;
-  color: #001d35;
-  border-radius: 16px;
-  font-family: var(--font-main);
-  font-size: 14px;
-  font-weight: 500;
-  margin: 4px 0 16px 12px;
-  cursor: pointer;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
-  transition: box-shadow 0.2s;
-  width: fit-content;
-}
-
-.g-compose-btn:hover {
-  box-shadow: 0 2px 6px 2px rgba(0,0,0,0.3);
-}
-
-.g-nav-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px 0 24px;
-  height: 36px;
-  border-radius: 0 18px 18px 0;
-  color: var(--g-text-secondary);
-  font-family: var(--font-main);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-
-.g-nav-link:hover {
-  background-color: var(--g-surface-hover);
-  color: var(--g-text-primary);
-}
-
-.g-nav-link.active {
-  background-color: #004a77;
-  color: #c2e7ff;
+.brand-tag {
+  font-size: 10px;
   font-weight: 700;
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.g-nav-left {
+.nav-menu {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
-.g-nav-badge {
-  font-size: 12px;
-  font-weight: 700;
+.nav-link {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-body);
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
-/* Main Workspace Viewport */
-.g-main-viewport {
-  flex: 1;
-  background-color: var(--g-surface);
-  border-radius: 16px 0 0 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+.nav-link:hover {
+  color: #ffffff;
+  background: var(--border);
 }
 
-/* ==========================================================================
-   GMAIL-STYLE INBOX INTERFACE
-   ========================================================================== */
-.g-action-bar {
-  height: 48px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--g-border);
-  color: var(--g-text-secondary);
-  font-size: 13px;
+.nav-link.active {
+  color: #ffffff;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
 }
 
-.g-action-group {
+.nav-actions {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.g-mail-row {
+/* ==========================================================================
+   PAGE WRAPPER & BIG HERO HEADINGS
+   ========================================================================== */
+.main-wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 48px 40px 96px 40px;
+}
+
+.big-hero {
+  margin-bottom: 40px;
+}
+
+.big-heading {
+  font-family: var(--font-heading);
+  font-size: 44px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero-sub {
+  font-size: 17px;
+  color: var(--text-body);
+  max-width: 780px;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   PROMINENT SEARCH BAR
+   ========================================================================== */
+.search-container {
+  margin-bottom: 40px;
+}
+
+.search-box-wrap {
   display: flex;
-  align-items: center;
-  padding: 0 16px;
-  height: 44px;
-  border-bottom: 1px solid var(--g-border-subtle);
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.1s, box-shadow 0.1s;
+  gap: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.g-mail-row:hover {
-  background-color: var(--g-surface-hover);
-  box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+.search-box-wrap:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
 }
 
-.g-mail-checkbox {
-  width: 18px;
-  height: 18px;
-  margin-right: 12px;
-  accent-color: var(--g-blue);
-  cursor: pointer;
-}
-
-.g-mail-star {
-  color: var(--g-text-muted);
-  margin-right: 14px;
-  cursor: pointer;
-}
-
-.g-mail-star.starred {
-  color: var(--g-yellow);
-}
-
-.g-mail-sender {
-  width: 180px;
-  font-family: var(--font-main);
-  font-weight: 500;
-  color: var(--g-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.g-mail-content {
+.search-big-input {
   flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: #ffffff;
+  padding: 12px 18px;
+}
+
+.search-big-input::placeholder {
+  color: var(--text-muted);
+}
+
+.btn-big-search {
+  background: var(--accent-cyan);
+  color: #0c0d12;
+  border: none;
+  border-radius: 8px;
+  padding: 0 28px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-big-search:hover {
+  background: #7dd3fc;
+}
+
+/* ==========================================================================
+   CARDS & DOSSIER GRID
+   ========================================================================== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.dossier-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all 0.2s;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding-right: 16px;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.g-mail-subject {
-  font-weight: 500;
-  color: var(--g-text-primary);
+.dossier-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.5);
 }
 
-.g-mail-snippet {
-  color: var(--g-text-secondary);
-  font-weight: 400;
+.dossier-card.featured {
+  border-color: rgba(56, 189, 248, 0.4);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.04) 0%, var(--bg-card) 100%);
 }
 
-.g-mail-date {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--g-text-secondary);
-  white-space: nowrap;
-}
-
-/* Expanded Mail View */
-.g-mail-detail {
-  padding: 24px;
-  background: var(--g-surface);
-  border-bottom: 1px solid var(--g-border);
-}
-
-.g-mail-detail-header {
+.card-top-meta {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.g-mail-detail-title {
-  font-family: var(--font-main);
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--g-text-primary);
-}
-
-.g-mail-meta-row {
-  display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
-.g-mail-body-box {
-  background: #18191c;
+.pill-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pill-danger {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.pill-amber {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fde047;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.pill-cyan {
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.card-content-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 20px;
+  padding: 16px;
   font-family: var(--font-mono);
   font-size: 13px;
   color: #e2e8f0;
   line-height: 1.6;
   white-space: pre-wrap;
-  border: 1px solid var(--g-border);
+  margin-top: 12px;
 }
 
 /* ==========================================================================
-   GOOGLE PHOTOS STYLE GALLERY
+   LOCKED EVIDENCE CARD (PHOTOS ACCESS GATE)
    ========================================================================== */
-.g-photos-container {
-  padding: 24px 32px;
+.locked-vault-box {
+  background: var(--bg-card);
+  border: 2px dashed rgba(244, 63, 94, 0.35);
+  border-radius: var(--radius);
+  padding: 64px 32px;
+  text-align: center;
+  max-width: 640px;
+  margin: 40px auto;
 }
 
-.g-photos-date-header {
-  font-family: var(--font-main);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--g-text-secondary);
-  margin-bottom: 14px;
+.lock-icon-circle {
+  width: 72px;
+  height: 72px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fb7185;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 20px auto;
 }
 
-.g-photos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-}
-
-.g-photo-item {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #000;
-  cursor: pointer;
-  border: 1px solid var(--g-border);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.g-photo-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-}
-
-.g-photo-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.g-photo-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.8) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 12px;
-}
-
-.g-photo-title {
-  color: #fff;
-  font-weight: 500;
-  font-size: 13px;
-}
-
-.g-photo-coords {
-  align-self: flex-end;
-  background: rgba(0,0,0,0.7);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--g-blue);
-}
-
-/* ==========================================================================
-   GOOGLE FLIGHTS STYLE REGISTRY
-   ========================================================================== */
-.g-flights-container {
-  padding: 24px 32px;
-}
-
-.g-flight-card {
-  background: #282a2d;
-  border: 1px solid var(--g-border);
-  border-radius: 12px;
-  padding: 18px 24px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  transition: background 0.15s;
-}
-
-.g-flight-card:hover {
-  background: var(--g-surface-hover);
-}
-
-.g-flight-route {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.g-airport-code {
-  font-family: var(--font-main);
-  font-size: 18px;
+.locked-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
   font-weight: 700;
-  color: var(--g-text-primary);
+  color: #ffffff;
+  margin-bottom: 10px;
 }
 
-.g-flight-arrow {
-  color: var(--g-blue);
-  font-size: 16px;
+.locked-desc {
+  color: var(--text-body);
+  font-size: 15px;
+  margin-bottom: 28px;
+  line-height: 1.5;
 }
 
-.g-flight-aircraft {
-  color: var(--g-text-secondary);
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-.g-flight-status-pill {
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 500;
-  background: rgba(129, 201, 149, 0.15);
-  color: var(--g-green);
-  border: 1px solid rgba(129, 201, 149, 0.3);
-}
-
-/* Modern Error Banner (for SQLi) */
-.g-error-banner {
-  margin: 16px 24px;
-  background: rgba(242, 139, 130, 0.12);
-  border: 1px solid var(--g-red);
+/* ==========================================================================
+   BUTTONS & FORMS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
   border-radius: 8px;
-  padding: 12px 16px;
-  color: var(--g-red);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: #ffffff;
+}
+
+.btn:hover {
+  background: var(--bg-subtle);
+  border-color: #ffffff;
+}
+
+.btn-primary {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #0c0d12;
+}
+
+.btn-primary:hover {
+  background: #7dd3fc;
+}
+
+.btn-danger {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #fb7185;
+}
+
+.btn-danger:hover {
+  background: rgba(244, 63, 94, 0.25);
+}
+
+.mono {
   font-family: var(--font-mono);
-  font-size: 12px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .g-sidebar { display: none; }
-  .g-main-viewport { border-radius: 0; }
-  .g-mail-sender { width: 100px; }
+  .top-nav { padding: 0 20px; }
+  .main-wrapper { padding: 32px 20px 60px 20px; }
+  .big-heading { font-size: 32px; }
+  .nav-menu { display: none; }
 }

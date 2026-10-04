@@ -1,71 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="page-hero">
-  <div>
-    <h1 class="page-hero-title">Executive Management Console</h1>
-    <p class="page-hero-desc">Active operator session: <strong style="color: var(--accent-cyan);">{{ current_user.username }}</strong> (Clearance: {{ current_user.role | upper }})</p>
+<div class="big-hero">
+  <div class="pill-badge pill-danger" style="margin-bottom: 12px; display: inline-block;">
+    AUTHENTICATED CLEARANCE &bull; {{ current_user.username | upper }}
   </div>
-  <div>
-    <a href="/logout" class="btn btn-danger">Terminate Session</a>
+  <h1 class="big-heading">Executive Console</h1>
+  <p class="hero-sub">
+    Compartmented system controls, personnel directories, and declassified operational flags.
+  </p>
+</div>
+
+<!-- System Flags Card -->
+<div class="dossier-card" style="margin-bottom: 32px;">
+  <h2 style="font-family: var(--font-heading); color: #fff; font-size: 20px; margin-bottom: 18px;">
+    System Challenge Flags
+  </h2>
+  
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    {% for f in flags %}
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <span class="pill-badge pill-amber">{{ f.flag_name }}</span>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">{{ f.description }}</div>
+      </div>
+      <div class="mono" style="font-size: 13px; font-weight: 700; color: var(--accent-emerald);">
+        {{ f.flag_value }}
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
 
-<!-- CTF System Flags Vault -->
-<div class="card" style="margin-bottom: 24px;">
-  <div class="card-header">
-    <span>Classified Challenge Flags</span>
-    <span class="badge-danger">Compartmented</span>
-  </div>
-  <div style="overflow-x: auto;">
-    <table class="flights-table">
-      <thead>
-        <tr>
-          <th>Identifier</th>
-          <th>Flag Value</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for flag in flags %}
-        <tr>
-          <td><strong style="color: var(--accent-amber);">{{ flag.flag_name }}</strong></td>
-          <td class="mono" style="color: var(--accent-emerald); font-weight: 600;">{{ flag.flag_value }}</td>
-          <td style="color: var(--text-secondary); font-size: 12px;">{{ flag.description }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Executive Accounts -->
-<div class="card">
-  <div class="card-header">
-    <span>Authorized Personnel</span>
-    <span class="badge-muted">{{ users | length }} Users</span>
-  </div>
-  <div style="overflow-x: auto;">
-    <table class="flights-table">
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>Role</th>
-          <th>Provisioned Date</th>
-          <th>Last Login</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for u in users %}
-        <tr>
-          <td><strong style="color: #fff;">{{ u.username }}</strong></td>
-          <td><span class="badge-muted">{{ u.role | upper }}</span></td>
-          <td class="mono" style="color: var(--text-muted); font-size: 12px;">{{ u.created_at }}</td>
-          <td class="mono" style="color: var(--text-muted); font-size: 12px;">{{ u.last_login }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+<!-- Quick Links -->
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+  <a href="/photos" class="btn btn-primary">&rarr; OPEN EVIDENCE PHOTOS VAULT</a>
+  <a href="/flights" class="btn">&rarr; VIEW FLIGHT MANIFESTS</a>
+  <a href="/logout" class="btn btn-danger">TERMINATE SESSION</a>
 </div>
 {% endblock %}

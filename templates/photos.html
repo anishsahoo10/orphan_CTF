@@ -1,46 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="g-photos-container">
-  
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <div>
-      <h1 style="font-family: var(--font-main); font-size: 22px; font-weight: 500; color: #fff;">Surveillance &amp; Evidence Vault</h1>
-      <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 4px;">High-resolution drone reconnaissance and perimeter camera captures.</p>
-    </div>
-    <span class="g-flight-status-pill" style="background: rgba(242, 139, 130, 0.15); color: var(--g-red); border-color: rgba(242, 139, 130, 0.3);">
-      {{ photos | length }} Classified Stills
-    </span>
+<div class="big-hero">
+  <div class="pill-badge pill-danger" style="margin-bottom: 12px; display: inline-block;">
+    CLEARANCE LEVEL: OPERATOR &bull; SESSION: {{ current_user.username | upper }}
   </div>
+  <h1 class="big-heading">Surveillance Evidence Vault</h1>
+  <p class="hero-sub">
+    High-altitude drone surveillance stills, private hangar staging, and naval nightwatch captures for Site Bravo.
+  </p>
+</div>
 
-  <!-- Timeline Header -->
-  <div class="g-photos-date-header">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
-    </svg>
-    <span>October 2024</span>
-  </div>
-
-  <!-- Google Photos Responsive Grid -->
-  <div class="g-photos-grid">
-    {% for p in photos %}
-    <div class="g-photo-item" onclick="window.open('{{ p.image_url }}', '_blank')">
-      <img src="{{ p.image_url }}" alt="{{ p.title }}">
-      <div class="g-photo-overlay">
-        <div>
-          <span style="font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.7); color: var(--g-yellow); padding: 2px 6px; border-radius: 4px;">
-            {{ p.category }}
-          </span>
-        </div>
-        <div>
-          <div class="g-photo-title">{{ p.title }}</div>
-          <div style="font-size: 11px; color: var(--g-text-secondary); margin-top: 2px;">{{ p.description }}</div>
-          <div class="g-photo-coords">{{ p.coordinates }}</div>
-        </div>
+<!-- Photo Gallery Grid -->
+<div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));">
+  {% for p in photos %}
+  <div class="dossier-card" style="padding: 0; overflow: hidden;">
+    
+    <!-- Image -->
+    <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden;">
+      <img src="{{ p.image_url }}" alt="{{ p.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+      <div style="position: absolute; top: 12px; left: 12px;">
+        <span class="pill-badge pill-danger">{{ p.classification }}</span>
+      </div>
+      <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.85); padding: 4px 10px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3);">
+        {{ p.coordinates }}
       </div>
     </div>
-    {% endfor %}
-  </div>
 
+    <!-- Metadata & Description -->
+    <div style="padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span class="pill-badge pill-amber">{{ p.category }}</span>
+        <span class="mono" style="font-size: 11px; color: var(--text-muted);">{{ p.timestamp }}</span>
+      </div>
+
+      <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">
+        {{ p.title }}
+      </h3>
+
+      <div style="font-size: 14px; color: var(--text-body); line-height: 1.5; margin-bottom: 16px;">
+        {{ p.description }}
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px;">
+        <span class="mono" style="font-size: 11px; color: var(--text-muted);">FILE: {{ p.image_url.split('/')[-1] }}</span>
+        <a href="{{ p.image_url }}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 12px;">View Full Still &nearr;</a>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
