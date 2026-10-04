@@ -3,10 +3,10 @@
 {% block content %}
 <!-- Editorial Hero -->
 <div class="sq-hero">
-  <div class="sq-kicker">Declassified Intelligence &bull; Site Bravo Dossier</div>
-  <h1 class="sq-hero-title">Archipelago Dossier.</h1>
+  <div class="sq-kicker">Special Projects Group &bull; Project Apex Horizon</div>
+  <h1 class="sq-hero-title">Flight Test Dossier.</h1>
   <p class="sq-hero-sub">
-    Leaked internal correspondence, operational transcripts, and private facility coordinates exfiltrated from Aethelgard Holdings.
+    Declassified telemetry, prototype flight logs, and uncatalogued autonomous test records exfiltrated from Apex Aeronautics.
   </p>
 </div>
 
@@ -17,11 +17,11 @@
       type="text" 
       name="q" 
       class="sq-search-input" 
-      placeholder="Search archive by keyword, name, or query... (e.g. coordinates, radar, charter)"
+      placeholder="Search telemetry by keyword, callsign, or query... (e.g. coordinates, radar, stealth)"
       value="{{ search_query }}"
       autofocus
     >
-    <button type="submit" class="sq-btn sq-btn-primary">Search Archive &rarr;</button>
+    <button type="submit" class="sq-btn sq-btn-primary">Search Telemetry &rarr;</button>
     {% if search_query %}
       <a href="/" class="sq-btn sq-btn-secondary" style="padding: 10px 18px;">Clear</a>
     {% endif %}
@@ -65,7 +65,7 @@
   </div>
   {% else %}
   <div style="grid-column: 1 / -1; text-align: center; padding: 80px 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border);">
-    <div style="font-family: var(--font-display); font-size: 20px; color: #ffffff; margin-bottom: 8px;">No dossier records match your filter</div>
+    <div style="font-family: var(--font-display); font-size: 20px; color: #ffffff; margin-bottom: 8px;">No telemetry records match your filter</div>
     <div style="font-size: 14px; color: var(--text-muted);">Try a broader keyword or inspect query parameters.</div>
   </div>
   {% endfor %}

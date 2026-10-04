@@ -2,10 +2,10 @@
 
 {% block content %}
 <div class="sq-hero">
-  <div class="sq-kicker">Aviation Operations &bull; Private Charters</div>
-  <h1 class="sq-hero-title">Flight Manifests.</h1>
+  <div class="sq-kicker">Apex Aeronautics &bull; Special Projects</div>
+  <h1 class="sq-hero-title">Flight Test Logs.</h1>
   <p class="sq-hero-sub">
-    Private charter tracking for Gulfstream N708AG and tactical shuttle rotorcraft servicing Site Bravo.
+    Prototype airframe tracking for Gulfstream N708AG (Apex Stealth Mod) and tactical rotorcraft servicing Site Bravo.
   </p>
 </div>
 
@@ -22,12 +22,12 @@
         {{ f.departure_hub }} &rarr; {{ f.arrival_hub }}
       </div>
       <div class="sq-flight-meta">
-        Tail Number: <span style="color: #ffffff;">{{ f.tail_number }}</span> &bull; {{ f.flight_date }} &bull; {{ f.passenger_count }} Guests
+        Tail Number: <span style="color: #ffffff;">{{ f.tail_number }}</span> &bull; {{ f.flight_date }} &bull; {{ f.passenger_count }} Personnel
       </div>
     </div>
 
     <div class="sq-flight-notes">
-      <div class="sq-tag" style="margin-bottom: 6px;">Manifest Directives</div>
+      <div class="sq-tag" style="margin-bottom: 6px;">Test Directives</div>
       <div>{{ f.manifest_notes }}</div>
     </div>
 

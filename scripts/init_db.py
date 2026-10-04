@@ -1,4 +1,4 @@
-"""Database initialization and seeding script for AETHELGARD ARCHIVES (The Archipelago Network)."""
+"""Database initialization and seeding script for APEX AERONAUTICS (Project Apex Horizon)."""
 import os
 import sqlite3
 import sys
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'operator',
+    role TEXT NOT NULL DEFAULT 'engineer',
     created_at TEXT NOT NULL,
     last_login TEXT
 );
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 
 
 def init_database(db_path: Path = DATABASE_PATH, force_recreate: bool = False):
-    """Create database tables and seed baseline investigative archive data."""
+    """Create database tables and seed baseline aerospace defense records."""
     DATABASE_DIR.mkdir(parents=True, exist_ok=True)
 
     if force_recreate and db_path.exists():
@@ -95,12 +95,12 @@ def init_database(db_path: Path = DATABASE_PATH, force_recreate: bool = False):
 
 
 def seed_data(conn: sqlite3.Connection):
-    """Seed initial investigative records for Aethelgard Holdings."""
+    """Seed initial aerospace defense records for Apex Aeronautics."""
     cursor = conn.cursor()
 
-    print("[*] Seeding database with investigative leak records...")
+    print("[*] Seeding database with Apex Aeronautics project records...")
 
-    # 1. Users (Keeping d.mercer compatible with current VM setup, plus h.vance)
+    # 1. Users (Retaining d.mercer and operator)
     users = [
         (
             "operator",
@@ -112,14 +112,14 @@ def seed_data(conn: sqlite3.Connection):
         (
             "d.mercer",
             hash_password("telecom2019"),
-            "sysadmin",
+            "lead-avionics",
             "2022-11-14 09:30:00",
             "2024-10-25 11:20:04",
         ),
         (
             "h.vance",
             hash_password("telecom2019"),
-            "director",
+            "flight-director",
             "2022-04-01 10:15:00",
             "2024-10-26 22:45:10",
         ),
@@ -132,43 +132,43 @@ def seed_data(conn: sqlite3.Connection):
         users,
     )
 
-    # 2. Executive Correspondence (Mails / Call Logs)
+    # 2. Aerospace Test Correspondence (Mails / Logs)
     messages = [
         (
-            "h.vance@aethelgard.internal",
-            "logistics@aethelgard.internal",
+            "h.vance@apex-aero.internal",
+            "flight-ops@apex-aero.internal",
             "2024-10-20 14:15:22",
-            "DISPATCH: Private Charter Schedule for Site Bravo",
-            "RESTRICTED",
-            """LOGISTICS MEMORANDUM // EYES ONLY
-Flight N708AG has completed private pre-flight clearance at Hangar 07. Departure is confirmed for 23:00 UTC with direct routing to Site Bravo Private Runway. 
+            "TEST DIRECTIVE: Prototype Airframe APX-650 Test Window",
+            "RESTRICTED // SPECIAL ACCESS",
+            """FLIGHT TEST DIRECTIVE // EYES ONLY
+Prototype airframe N708AG (Apex-650 Stealth Conversion) has completed pre-flight avionics burn-in at Subterranean Hangar 07. 
 
-Ground personnel must disable transponders 30 nautical miles outside regional airspace as per Protocol 9. No local flight manifests are to be submitted to municipal aviation authorities.
+Departure is confirmed for 23:00 UTC with low-observable transit routing to Site Bravo Offshore Runway. Ground radar controllers must disable secondary transponders 50 nautical miles outside civil airspace per Protocol 9. No flight plans are to be filed with civil aviation authorities.
 
-Ensure the private guest pavilion is prepared prior to touchdown.""",
+Verify subterranean arresting gear prior to touchdown.""",
         ),
         (
-            "security@aethelgard.internal",
-            "h.vance@aethelgard.internal",
+            "radar@apex-aero.internal",
+            "d.mercer@apex-aero.internal",
             "2024-10-22 09:40:11",
-            "CALL LOG & INTERCEPT: Maritime Radar Ping Anomaly",
-            "CONFIDENTIAL",
-            """CALL TRANSCRIPT // RECORDED LINE 04
+            "TELEMETRY LOG: Radar Cross-Section Anomaly & Sea-Skimming Sweep",
+            "CONFIDENTIAL // DEFENSE AUDIT",
+            """RADAR TELEMETRY TRANSCRIPT // SITE BRAVO SENSOR ARRAY
 TIME: 03:14 UTC
-CALLER: Watchpost Alpha (Harbor Master)
-RECIPIENT: Chief Security Vance
+SENSOR: Coastal Phased Array (Array 04)
+TARGET: Airframe N708AG
 
-TRANSCRIPT:
-"Unregistered vessel entered perimeter waters 4 kilometers north of the private cove. Vessel was painted dark with navigation beacons extinguished. Our patrol tender intercepted and redirected the craft without incident. Vessel skipper claimed engine failure."
+OBSERVATION:
+Radar cross-section reduction of 84% confirmed during sea-skimming approach at 200 feet above sea level. Unregistered patrol craft detected 4 km off northern cove; tender intercepted without incident.
 
 DIRECTIVE:
-Increase thermal perimeter scan intervals on radar sweep. Do not permit unvetted vessels within 5 nautical miles of the island estate.""",
+Increase thermal perimeter scan intervals. Maintain complete radio silence during night autonomous approach tests.""",
         ),
         (
-            "dispatch@aethelgard.internal",
-            "all-exec@aethelgard.internal",
+            "dispatch@apex-aero.internal",
+            "all-engineers@apex-aero.internal",
             "2024-10-24 18:22:05",
-            "ENCRYPTED MEMO: Estate Coordinates & Encrypted Archive Key",
+            "ENCRYPTED MEMO: Test Range Coordinates & Telemetry Relay Frequency",
             "TOP SECRET // COMPARTMENTED",
             """COORDINATES CONFIRMED:
 Primary Island Compound: LAT 36.4523N, LON 28.1876E (Site Bravo - Mediterranean Basin)
@@ -180,18 +180,18 @@ FLAG_4_COMMUNICATIONS: flag{pr1v4t3_m41l_c00rd1n4t3s_3xfl1tr4t3d_44b1}
 Notice: All local mailbox archives are scheduled for automated cryptographic zeroing upon activation of emergency decommission protocol.""",
         ),
         (
-            "legal@aethelgard.internal",
-            "h.vance@aethelgard.internal",
+            "compliance@apex-aero.internal",
+            "d.mercer@apex-aero.internal",
             "2024-10-25 11:05:44",
-            "LEGAL AUDIT: Subpoena Inquiries Regarding Offshore Holdings",
+            "COMPLIANCE AUDIT: Defense Procurement Inquiries Regarding Unlisted Airframes",
             "PRIVILEGED & CONFIDENTIAL",
-            """Counsel confirms that the offshore trust records for Aethelgard Holdings remain physically sealed in the Panamanian registry. 
+            """Ministry of Defense auditors have formally requested maintenance logs for all modified Gulfstream airframes operated from Mediterranean staging hubs.
 
-Do not retain digital backups of guest manifests or charter manifests on unencrypted workstations. Transfer all legacy data logs to the isolated staging node ATG-NODE-01 immediately.""",
+Do not retain digital backups of autonomous flight profiles on unencrypted workstations. Transfer all telemetry archives to isolated test node APX-NODE-01 immediately.""",
         ),
         (
-            "sysadmin@aethelgard.internal",
-            "d.mercer@aethelgard.internal",
+            "sysadmin@apex-aero.internal",
+            "d.mercer@apex-aero.internal",
             "2024-10-26 23:59:00",
             "CONFIDENTIAL IT DISPATCH // EMERGENCY ACCESS & CREDENTIALS",
             "TOP SECRET // RESTRICTED ACCESS",
@@ -218,47 +218,47 @@ INSTRUCTIONS FOR DISPATCH LEAD:
         messages,
     )
 
-    # 3. Private Aviation Registry (Flights)
+    # 3. Prototype Flight Test Registry
     flights = [
         (
-            "ATG-701",
+            "APX-701",
             "N708AG",
-            "London Luton (EGGW)",
-            "Site Bravo Private Runway (LGSB)",
+            "London Luton Special Ops (EGGW)",
+            "Site Bravo Subterranean Runway (LGSB)",
             "2024-10-18",
-            "Gulfstream G650ER",
+            "Gulfstream G650ER (Apex Stealth Mod)",
             6,
-            "VIP Private Charter. Customs clearance bypassed per Special Exemption Directive 14.",
+            "Prototype autonomous flight control testing. Transponder deactivated per Defense Directive 14.",
         ),
         (
-            "ATG-704",
+            "APX-704",
             "N708AG",
-            "Le Bourget Paris (LFPB)",
-            "Site Bravo Private Runway (LGSB)",
+            "Istres-Le Tubé Flight Test Base (LFMI)",
+            "Site Bravo Subterranean Runway (LGSB)",
             "2024-10-21",
-            "Gulfstream G650ER",
+            "Gulfstream G650ER (Apex Stealth Mod)",
             4,
-            "Executive delegation. Unmanifested catering and secure diplomatic lockbox loaded in cargo bay.",
+            "Avionics sensor pod calibration. Uncatalogued optical telemetry package installed in forward fuselage.",
         ),
         (
-            "ATG-882",
+            "APX-882",
             "N919AG",
             "Nice Côte d'Azur (LFMN)",
             "Site Bravo Helipad (SB-01)",
             "2024-10-23",
-            "AgustaWestland AW139",
+            "AgustaWestland AW139 (Tactical Tender)",
             3,
-            "Helicopter shuttle link between private marina and cliffside villa compound.",
+            "Tactical personnel transfer between offshore radar buoy and cliffside command bunker.",
         ),
         (
-            "ATG-910",
+            "APX-910",
             "N708AG",
             "Dubai World Central (OMDW)",
-            "Site Bravo Private Runway (LGSB)",
+            "Site Bravo Subterranean Runway (LGSB)",
             "2024-10-25",
-            "Gulfstream G650ER",
+            "Gulfstream G650ER (Apex Stealth Mod)",
             8,
-            "Discreet passenger group. Transponder deactivated at Waypoint TITAN. Night landing verified.",
+            "Night autonomous approach test. Primary transponder killswitch engaged at Waypoint TITAN.",
         ),
     ]
     cursor.executemany(
@@ -269,37 +269,19 @@ INSTRUCTIONS FOR DISPATCH LEAD:
         flights,
     )
 
-    # 4. Classified Media Vault (Photos & Surveillance Stills)
+    # 4. Classified Visual Reconnaissance (5 Photos)
     photos = [
         (
-            "SURVEILLANCE: Site Bravo Private Island Estate",
+            "Site Bravo Offshore Test Facility & Subterranean Airfield",
             "AERIAL RECON",
             "/static/images/island_estate.jpg",
             "2024-10-27 18:45:00 UTC",
             "LAT 36.4523N, LON 28.1876E",
             "TOP SECRET",
-            "High-altitude optical drone snapshot of the main villa compound, private cliffside pathways, and tactical helipad. Coordinates verified.",
+            "High-altitude optical drone snapshot of the primary runway complex, cliffside command facility, and tactical helipad.",
         ),
         (
-            "HANGAR 07: Private Aviation Staging Facility",
-            "AIRFIELD OPS",
-            "/static/images/private_hangar.jpg",
-            "2024-10-26 23:10:00 UTC",
-            "SECURE RUNWAY ACCESS",
-            "RESTRICTED",
-            "Interior view of Hangar 07 hosting private jet N708AG prior to midnight departure. Maintenance and fueling logs archived.",
-        ),
-        (
-            "PORT WATCH: Isolated Marina & Superyacht Mooring",
-            "MARITIME RADAR",
-            "/static/images/yacht_marina.jpg",
-            "2024-10-27 01:34:58 UTC",
-            "NORTHERN COVE DOCK",
-            "CONFIDENTIAL",
-            "Nightwatch camera feed CAM-5 capturing private yacht Nightstar docked at the secluded access pier. FLAG_5_MEDIA_VAULT: flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}",
-        ),
-        (
-            "FLIGHT DECK: Gulfstream N708AG Cockpit Avionics",
+            "Flight Deck: Gulfstream N708AG Cockpit Avionics & Autopilot",
             "AVIONICS LOG",
             "/static/images/private_cockpit.jpg",
             "2024-10-25 21:14:00 UTC",
@@ -308,13 +290,31 @@ INSTRUCTIONS FOR DISPATCH LEAD:
             "Cockpit flight management display showing deactivated secondary transponder beacon prior to island descent.",
         ),
         (
-            "RESIDENCE: Site Bravo Cliffside Lounge & Quarters",
-            "ESTATE INTERIOR",
+            "Research Quarters: Site Bravo Coastal Command Center",
+            "FACILITY INTERIOR",
             "/static/images/villa_interior.jpg",
             "2024-10-27 19:20:00 UTC",
             "MAIN COMPOUND / SECTOR 01",
             "CONFIDENTIAL",
-            "Interior architectural capture of executive lounge overlooking coastal waters. Private meeting sanctuary.",
+            "Executive briefing lounge overlooking the northern maritime exclusion zone.",
+        ),
+        (
+            "Subterranean Hangar 07: Prototype Airframe Staging",
+            "AIRFIELD OPS",
+            "/static/images/private_hangar.jpg",
+            "2024-10-26 23:10:00 UTC",
+            "SECURE RUNWAY ACCESS",
+            "RESTRICTED",
+            "Interior view of Hangar 07 staging airframe N708AG prior to midnight autonomous low-observable test run.",
+        ),
+        (
+            "Coastal Radar Watch: Secluded Mooring & Radar Array CAM-05",
+            "MARITIME RADAR",
+            "/static/images/yacht_marina.jpg",
+            "2024-10-27 01:34:58 UTC",
+            "NORTHERN COVE DOCK",
+            "CONFIDENTIAL",
+            "Nightwatch camera feed CAM-5 capturing private yacht Nightstar docked at the secluded access pier. FLAG_5_MEDIA_VAULT: flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}",
         ),
     ]
     cursor.executemany(

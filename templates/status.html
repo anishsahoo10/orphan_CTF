@@ -2,10 +2,10 @@
 
 {% block content %}
 <div class="sq-hero">
-  <div class="sq-kicker">Local Node Watchdog &bull; Telemetry</div>
+  <div class="sq-kicker">Apex Aeronautics &bull; Node Diagnostics</div>
   <h1 class="sq-hero-title">System Telemetry.</h1>
   <p class="sq-hero-sub">
-    Operational metrics, subsystem daemons, and satellite links for node {{ node_id }}.
+    Operational metrics, flight test daemons, and avionics relays for node {{ node_id }}.
   </p>
 </div>
 
@@ -18,18 +18,18 @@
       <div>Operating System: <span style="color: #ffffff;">Ubuntu Linux x86_64</span></div>
       <div>HTTP Gateway: <span style="color: #ffffff;">FastAPI / Uvicorn (Port 8000)</span></div>
       <div>Admin Shell: <span style="color: #ffffff;">OpenSSH (Port 22)</span></div>
-      <div>Storage Engine: <span style="color: #ffffff;">SQLite 3.x Vault</span></div>
+      <div>Telemetry Database: <span style="color: #ffffff;">SQLite 3.x Vault</span></div>
     </div>
   </div>
 
   <div class="sq-card">
-    <div class="sq-tag" style="margin-bottom: 12px;">Perimeter Link</div>
+    <div class="sq-tag" style="margin-bottom: 12px;">Perimeter Telemetry</div>
     <h3 class="sq-card-title">Site Bravo Communications</h3>
     <div style="font-family: var(--font-mono); font-size: 13px; line-height: 2; color: var(--text-secondary);">
-      <div>Facility Target: <span style="color: #ffffff;">Site Bravo Private Estate</span></div>
-      <div>Helipad Frequency: <span style="color: #ffffff;">122.85 MHz [Chirp: ECHO-7]</span></div>
-      <div>Executive Aircraft: <span style="color: #ffffff;">Gulfstream N708AG</span></div>
-      <div>Lead Custodian: <span style="color: #ffffff;">{{ administrator }}</span></div>
+      <div>Facility Target: <span style="color: #ffffff;">Site Bravo Subterranean Test Range</span></div>
+      <div>Avionics Relay: <span style="color: #ffffff;">122.85 MHz [Chirp: APEX-CHIRP-7]</span></div>
+      <div>Prototype Airframe: <span style="color: #ffffff;">Gulfstream N708AG (Apex-650 Mod)</span></div>
+      <div>Lead Engineer: <span style="color: #ffffff;">{{ administrator }}</span></div>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page_title }} - AETHELGARD ARCHIVES</title>
+  <title>{{ page_title }} - APEX AERONAUTICS</title>
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -14,18 +14,18 @@
       
       <!-- Brand -->
       <a href="/" class="sq-brand">
-        <span class="sq-brand-title">Aethelgard</span>
-        <span class="sq-brand-badge">Node ATG-01</span>
+        <span class="sq-brand-title">Apex Aeronautics</span>
+        <span class="sq-brand-badge">Node APX-01</span>
       </a>
 
       <!-- Navigation Links -->
       <nav class="sq-menu">
-        <a href="/" class="sq-menu-link {% if request.url.path == '/' %}active{% endif %}">Archive Search</a>
-        <a href="/flights" class="sq-menu-link {% if request.url.path == '/flights' %}active{% endif %}">Flight Manifests</a>
+        <a href="/" class="sq-menu-link {% if request.url.path == '/' %}active{% endif %}">Telemetry Archive</a>
+        <a href="/flights" class="sq-menu-link {% if request.url.path == '/flights' %}active{% endif %}">Flight Test Logs</a>
         <a href="/photos" class="sq-menu-link {% if request.url.path == '/photos' %}active{% endif %}">
           {% if current_user %}Evidence Vault{% else %}Evidence Vault (Locked){% endif %}
         </a>
-        <a href="/status" class="sq-menu-link {% if request.url.path == '/status' %}active{% endif %}">Telemetry</a>
+        <a href="/status" class="sq-menu-link {% if request.url.path == '/status' %}active{% endif %}">Diagnostics</a>
       </nav>
 
       <!-- Action -->

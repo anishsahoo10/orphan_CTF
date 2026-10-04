@@ -43,12 +43,19 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Custom Middleware to inject Flag 1 header into all HTTP responses
+# Custom Middleware to inject Flag 1 header into all HTTP responses and handle HEAD
 @app.middleware("http")
 async def add_ctf_recon_header(request: Request, call_next):
+    is_head = request.method == "HEAD"
+    if is_head:
+        request.scope["method"] = "GET"
     response = await call_next(request)
+    if is_head:
+        response.body = b""
+        response.headers["content-length"] = "0"
+    response.headers["X-Apex-Telemetry"] = "flag{4rch1p3l4g0_r3c0n_f1ng3rpr1nt_88a1}"
     response.headers["X-Archipelago-Node"] = "flag{4rch1p3l4g0_r3c0n_f1ng3rpr1nt_88a1}"
-    response.headers["X-Node-Origin"] = "ATG-SITE-BRAVO-MEDITERRANEAN"
+    response.headers["X-Node-Origin"] = "APEX-SITE-BRAVO-TEST-RANGE"
     return response
 
 # Mount Session Middleware
