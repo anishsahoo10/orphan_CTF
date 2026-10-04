@@ -1,30 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="big-hero">
-  <div class="pill-badge pill-danger" style="margin-bottom: 12px; display: inline-block;">
-    AUTHENTICATED CLEARANCE &bull; {{ current_user.username | upper }}
-  </div>
-  <h1 class="big-heading">Executive Console</h1>
-  <p class="hero-sub">
-    Compartmented system controls, personnel directories, and declassified operational flags.
+<div class="sq-hero">
+  <div class="sq-kicker">Authenticated Session &bull; {{ current_user.username }}</div>
+  <h1 class="sq-hero-title">Executive Console.</h1>
+  <p class="sq-hero-sub">
+    Compartmented system controls, personnel directories, and declassified challenge flags.
   </p>
 </div>
 
-<!-- System Flags Card -->
-<div class="dossier-card" style="margin-bottom: 32px;">
-  <h2 style="font-family: var(--font-heading); color: #fff; font-size: 20px; margin-bottom: 18px;">
-    System Challenge Flags
-  </h2>
+<!-- Flags Card -->
+<div class="sq-card" style="margin-bottom: 40px;">
+  <div class="sq-tag" style="margin-bottom: 12px;">Challenge Verification</div>
+  <h2 class="sq-card-title">System Challenge Flags</h2>
   
-  <div style="display: flex; flex-direction: column; gap: 12px;">
+  <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
     {% for f in flags %}
-    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
       <div>
-        <span class="pill-badge pill-amber">{{ f.flag_name }}</span>
+        <div style="font-family: var(--font-display); font-size: 15px; font-weight: 600; color: #ffffff;">{{ f.flag_name }}</div>
         <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">{{ f.description }}</div>
       </div>
-      <div class="mono" style="font-size: 13px; font-weight: 700; color: var(--accent-emerald);">
+      <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--accent-green); background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.25); padding: 6px 14px; border-radius: 6px;">
         {{ f.flag_value }}
       </div>
     </div>
@@ -32,10 +29,9 @@
   </div>
 </div>
 
-<!-- Quick Links -->
 <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-  <a href="/photos" class="btn btn-primary">&rarr; OPEN EVIDENCE PHOTOS VAULT</a>
-  <a href="/flights" class="btn">&rarr; VIEW FLIGHT MANIFESTS</a>
-  <a href="/logout" class="btn btn-danger">TERMINATE SESSION</a>
+  <a href="/photos" class="sq-btn sq-btn-primary">View Evidence Photos Vault &rarr;</a>
+  <a href="/flights" class="sq-btn sq-btn-secondary">View Flight Manifests &rarr;</a>
+  <a href="/logout" class="sq-btn sq-btn-danger">Sign Out</a>
 </div>
 {% endblock %}

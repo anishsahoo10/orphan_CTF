@@ -69,7 +69,7 @@ def run_tests():
     res = client.get("/photos")
     assert res.status_code == 200
     assert "Clearance Required" in res.text or "Restricted Surveillance Vault" in res.text
-    assert "SIGN IN TO UNLOCK EVIDENCE" in res.text
+    assert "Sign In to Access Vault" in res.text or "SIGN IN" in res.text
     print("    [+] Unauthenticated users are properly blocked from viewing photos.")
 
     # 8. Test Logging In and Unlocking /photos (Flag 5)
@@ -79,7 +79,7 @@ def run_tests():
     
     photos_res = client.get("/photos")
     assert photos_res.status_code == 200
-    assert "Surveillance Evidence Vault" in photos_res.text
+    assert "Surveillance Vault" in photos_res.text
     assert "flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}" in photos_res.text
     print("    [+] Logged-in user successfully unlocked photos gallery and retrieved Flag 5!")
 

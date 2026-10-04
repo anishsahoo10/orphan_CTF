@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="big-hero" style="text-align: center;">
-  <div class="brand-tag" style="margin-bottom: 12px; display: inline-block;">SECURITY DIRECTIVE // ACCESS GATEWAY</div>
-  <h1 class="big-heading">Restricted Surveillance Vault</h1>
-  <p class="hero-sub" style="margin: 0 auto;">
+<div class="sq-hero" style="text-align: center;">
+  <div class="sq-kicker">Security Directive &bull; Verification Required</div>
+  <h1 class="sq-hero-title">Restricted Surveillance Vault.</h1>
+  <p class="sq-hero-sub" style="margin: 0 auto;">
     High-resolution optical reconnaissance, facility blueprints, and naval nightwatch captures for Site Bravo.
   </p>
 </div>
 
-<!-- Locked Vault Box -->
-<div class="locked-vault-box">
-  <div class="lock-icon-circle">🔒</div>
-  <h2 class="locked-title">Clearance Required</h2>
-  <p class="locked-desc">
+<!-- Squarespace Minimal Locked Box (No Emojis) -->
+<div class="sq-locked-box">
+  <span class="sq-locked-badge">Access Restricted</span>
+  <h2 class="sq-locked-title">Clearance Required.</h2>
+  <p class="sq-locked-sub">
     This evidence vault contains classified surveillance captures and requires an active operator session. 
-    Please sign in with authorized dispatch credentials (e.g. Lead Systems Architect) to decrypt and view the imagery.
+    Please sign in with authorized dispatch credentials to decrypt and view the imagery.
   </p>
   <div>
-    <a href="/login?next=/photos" class="btn btn-primary" style="padding: 12px 28px; font-size: 15px;">
-      SIGN IN TO UNLOCK EVIDENCE &rarr;
+    <a href="/login?next=/photos" class="sq-btn sq-btn-primary" style="padding: 14px 36px; font-size: 14px;">
+      Sign In to Access Vault &rarr;
     </a>
   </div>
 </div>

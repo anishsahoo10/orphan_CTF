@@ -1,33 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="big-hero">
-  <div class="brand-tag" style="margin-bottom: 12px; display: inline-block;">TELEMETRY &bull; LOCAL WATCHDOG</div>
-  <h1 class="big-heading">System Telemetry</h1>
-  <p class="hero-sub">
-    Operational metrics, subsystem daemons, and satellite links for node <code>{{ node_id }}</code>.
+<div class="sq-hero">
+  <div class="sq-kicker">Local Node Watchdog &bull; Telemetry</div>
+  <h1 class="sq-hero-title">System Telemetry.</h1>
+  <p class="sq-hero-sub">
+    Operational metrics, subsystem daemons, and satellite links for node {{ node_id }}.
   </p>
 </div>
 
-<!-- Specs Cards -->
-<div class="card-grid" style="margin-bottom: 32px;">
-  <div class="dossier-card">
-    <h3 style="font-family: var(--font-heading); color: #fff; font-size: 18px; margin-bottom: 16px;">Node Specifications</h3>
-    <div style="font-size: 14px; line-height: 1.8;">
-      <div>Operating System: <strong style="color: #fff;">Ubuntu Linux x86_64</strong></div>
-      <div>HTTP Gateway: <strong style="color: var(--accent-cyan);">FastAPI (Port 8000)</strong></div>
-      <div>Admin Shell: <strong style="color: var(--accent-cyan);">OpenSSH (Port 22)</strong></div>
-      <div>Database Engine: <strong style="color: #fff;">SQLite 3.x Vault</strong></div>
+<!-- Squarespace Telemetry Cards -->
+<div class="sq-grid" style="margin-bottom: 40px;">
+  <div class="sq-card">
+    <div class="sq-tag" style="margin-bottom: 12px;">Node Specifications</div>
+    <h3 class="sq-card-title">Staging Host Architecture</h3>
+    <div style="font-family: var(--font-mono); font-size: 13px; line-height: 2; color: var(--text-secondary);">
+      <div>Operating System: <span style="color: #ffffff;">Ubuntu Linux x86_64</span></div>
+      <div>HTTP Gateway: <span style="color: #ffffff;">FastAPI / Uvicorn (Port 8000)</span></div>
+      <div>Admin Shell: <span style="color: #ffffff;">OpenSSH (Port 22)</span></div>
+      <div>Storage Engine: <span style="color: #ffffff;">SQLite 3.x Vault</span></div>
     </div>
   </div>
 
-  <div class="dossier-card">
-    <h3 style="font-family: var(--font-heading); color: #fff; font-size: 18px; margin-bottom: 16px;">Perimeter Link</h3>
-    <div style="font-size: 14px; line-height: 1.8;">
-      <div>Facility Target: <strong style="color: #fff;">Site Bravo Private Estate</strong></div>
-      <div>Helipad Relay: <strong style="color: var(--accent-amber);">122.85 MHz [ECHO-7]</strong></div>
-      <div>Primary Charter: <strong style="color: #fff;">Gulfstream N708AG</strong></div>
-      <div>Lead Custodian: <strong style="color: #fff;">{{ administrator }}</strong></div>
+  <div class="sq-card">
+    <div class="sq-tag" style="margin-bottom: 12px;">Perimeter Link</div>
+    <h3 class="sq-card-title">Site Bravo Communications</h3>
+    <div style="font-family: var(--font-mono); font-size: 13px; line-height: 2; color: var(--text-secondary);">
+      <div>Facility Target: <span style="color: #ffffff;">Site Bravo Private Estate</span></div>
+      <div>Helipad Frequency: <span style="color: #ffffff;">122.85 MHz [Chirp: ECHO-7]</span></div>
+      <div>Executive Aircraft: <span style="color: #ffffff;">Gulfstream N708AG</span></div>
+      <div>Lead Custodian: <span style="color: #ffffff;">{{ administrator }}</span></div>
     </div>
   </div>
 </div>

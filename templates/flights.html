@@ -1,44 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="big-hero">
-  <div class="brand-tag" style="margin-bottom: 12px; display: inline-block;">LOGISTICS &bull; PRIVATE AIRSTRIP LOGS</div>
-  <h1 class="big-heading">Flight Manifests</h1>
-  <p class="hero-sub">
+<div class="sq-hero">
+  <div class="sq-kicker">Aviation Operations &bull; Private Charters</div>
+  <h1 class="sq-hero-title">Flight Manifests.</h1>
+  <p class="sq-hero-sub">
     Private charter tracking for Gulfstream N708AG and tactical shuttle rotorcraft servicing Site Bravo.
   </p>
 </div>
 
-<!-- Flight Cards Grid -->
-<div style="display: flex; flex-direction: column; gap: 16px;">
+<!-- Clean Minimalist Flight Cards -->
+<div style="display: flex; flex-direction: column; gap: 24px;">
   {% for f in flights %}
-  <div class="dossier-card" style="padding: 24px;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
-      
-      <!-- Route & Charter ID -->
-      <div>
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-          <span class="pill-badge pill-cyan">{{ f.flight_number }}</span>
-          <span class="mono" style="font-size: 16px; font-weight: 700; color: #fff;">{{ f.tail_number }}</span>
-          <span style="font-size: 13px; color: var(--text-muted);">({{ f.aircraft_model }})</span>
-        </div>
-        <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px;">
-          {{ f.departure_hub }} &rarr; <span style="color: var(--accent-cyan);">{{ f.arrival_hub }}</span>
-        </div>
+  <div class="sq-flight-card">
+    
+    <div>
+      <div class="sq-tag" style="margin-bottom: 8px;">
+        {{ f.flight_number }} &bull; {{ f.aircraft_model }}
       </div>
-
-      <!-- Date & Passengers -->
-      <div style="text-align: right;">
-        <span class="pill-badge pill-amber">{{ f.passenger_count }} PASSENGERS</span>
-        <div class="mono" style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Date: {{ f.flight_date }}</div>
+      <div class="sq-flight-route">
+        {{ f.departure_hub }} &rarr; {{ f.arrival_hub }}
       </div>
-
+      <div class="sq-flight-meta">
+        Tail Number: <span style="color: #ffffff;">{{ f.tail_number }}</span> &bull; {{ f.flight_date }} &bull; {{ f.passenger_count }} Guests
+      </div>
     </div>
 
-    <!-- Notes -->
-    <div class="card-content-box" style="margin-top: 16px;">
-      <strong>DIRECTIVES &amp; NOTES:</strong> {{ f.manifest_notes }}
+    <div class="sq-flight-notes">
+      <div class="sq-tag" style="margin-bottom: 6px;">Manifest Directives</div>
+      <div>{{ f.manifest_notes }}</div>
     </div>
+
   </div>
   {% endfor %}
 </div>

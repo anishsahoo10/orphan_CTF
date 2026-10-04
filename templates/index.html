@@ -1,78 +1,72 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Big Hero Heading -->
-<div class="big-hero">
-  <div class="brand-tag" style="margin-bottom: 12px; display: inline-block;">DECLASSIFIED REPOSITORY &bull; NODE ATG-01</div>
-  <h1 class="big-heading">Archipelago Dossier</h1>
-  <p class="hero-sub">
-    Leaked internal dispatches, operational transcripts, and confidential facility coordinates exfiltrated from Aethelgard Holdings.
+<!-- Editorial Hero -->
+<div class="sq-hero">
+  <div class="sq-kicker">Declassified Intelligence &bull; Site Bravo Dossier</div>
+  <h1 class="sq-hero-title">Archipelago Dossier.</h1>
+  <p class="sq-hero-sub">
+    Leaked internal correspondence, operational transcripts, and private facility coordinates exfiltrated from Aethelgard Holdings.
   </p>
 </div>
 
-<!-- Prominent Big Search Bar (SQL Injection Point) -->
-<div class="search-container">
-  <form method="GET" action="/" class="search-box-wrap">
+<!-- Minimalist Pill Search Bar (SQL Injection Target) -->
+<div class="sq-search-wrap">
+  <form method="GET" action="/" class="sq-search-form">
     <input 
       type="text" 
       name="q" 
-      class="search-big-input" 
+      class="sq-search-input" 
       placeholder="Search archive by keyword, name, or query... (e.g. coordinates, radar, charter)"
       value="{{ search_query }}"
       autofocus
     >
-    <button type="submit" class="btn-big-search">SEARCH ARCHIVE &rarr;</button>
+    <button type="submit" class="sq-btn sq-btn-primary">Search Archive &rarr;</button>
     {% if search_query %}
-      <a href="/" class="btn" style="align-self: center; padding: 10px 16px; font-size: 13px;">Clear</a>
+      <a href="/" class="sq-btn sq-btn-secondary" style="padding: 10px 18px;">Clear</a>
     {% endif %}
   </form>
 
   {% if search_query %}
-  <div style="margin-top: 14px; font-size: 14px; color: var(--text-muted);">
-    Filtered query: <code class="mono" style="color: var(--accent-cyan);">{{ search_query }}</code> &bull; Showing <strong>{{ records | length }}</strong> records
+  <div style="margin-top: 16px; font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);">
+    Filtered query: <span style="color: #ffffff;">{{ search_query }}</span> &bull; Showing {{ records | length }} records
   </div>
   {% endif %}
 </div>
 
-<!-- SQL Exception Banner (For error-based SQLi discovery) -->
+<!-- SQL Exception Banner -->
 {% if sql_error %}
-<div style="background: rgba(244, 63, 94, 0.12); border: 1px solid var(--accent-rose); border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;">
-  <div style="font-weight: 700; color: #fb7185; font-size: 13px; margin-bottom: 4px;">DATABASE PARSER EXCEPTION</div>
-  <div class="mono" style="font-size: 12px; color: #fecdd3;">{{ sql_error }}</div>
+<div style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.4); border-radius: 12px; padding: 20px; margin-bottom: 36px;">
+  <div style="font-family: var(--font-mono); font-weight: 600; color: #ff6b6b; font-size: 13px; margin-bottom: 6px;">DATABASE PARSER EXCEPTION</div>
+  <div style="font-family: var(--font-mono); font-size: 13px; color: #ffa8a8;">{{ sql_error }}</div>
 </div>
 {% endif %}
 
-<!-- Dossier Records Cards -->
-<div class="card-grid">
+<!-- Editorial Dossier Grid -->
+<div class="sq-grid">
   {% for doc in records %}
-  <div class="dossier-card {% if 'EMERGENCY ACCESS' in doc.subject %}featured{% endif %}">
+  <div class="sq-card {% if 'EMERGENCY ACCESS' in doc.subject %}highlight{% endif %}">
     <div>
-      <div class="card-top-meta">
-        <span class="mono" style="font-size: 11px; color: var(--text-muted);">{{ doc.timestamp }}</span>
-        {% if "TOP SECRET" in doc.classification %}
-          <span class="pill-badge pill-danger">{{ doc.classification }}</span>
-        {% elif "RESTRICTED" in doc.classification %}
-          <span class="pill-badge pill-amber">{{ doc.classification }}</span>
-        {% else %}
-          <span class="pill-badge pill-cyan">{{ doc.classification }}</span>
-        {% endif %}
+      <div class="sq-card-meta">
+        <span class="sq-tag">{{ doc.classification }}</span>
+        <span class="sq-tag">{{ doc.timestamp }}</span>
       </div>
 
-      <h2 class="card-title">{{ doc.subject }}</h2>
+      <h2 class="sq-card-title">{{ doc.subject }}</h2>
       
-      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-        Origin: <span class="mono" style="color: var(--text-body);">{{ doc.sender }}</span> &rarr; <span class="mono">{{ doc.recipient }}</span>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+        Origin: <span style="color: #ffffff;">{{ doc.sender }}</span> &rarr; {{ doc.recipient }}
       </div>
 
-      <div class="card-content-box">
+      <div class="sq-card-content">
 {{ doc.content }}
       </div>
     </div>
   </div>
   {% else %}
-  <div style="grid-column: 1 / -1; text-align: center; padding: 64px 20px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border);">
-    <div style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 6px;">No dossier records match your search filter</div>
-    <div style="font-size: 14px; color: var(--text-muted);">Try a broader search term or test for archive injection parameters.</div>
+  <div style="grid-column: 1 / -1; text-align: center; padding: 80px 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border);">
+    <div style="font-family: var(--font-display); font-size: 20px; color: #ffffff; margin-bottom: 8px;">No dossier records match your filter</div>
+    <div style="font-size: 14px; color: var(--text-muted);">Try a broader keyword or inspect query parameters.</div>
   </div>
   {% endfor %}
 </div>

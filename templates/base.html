@@ -3,47 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page_title }} &bull; AETHELGARD ARCHIVES</title>
+  <title>{{ page_title }} - AETHELGARD ARCHIVES</title>
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-nav">
-    <div class="nav-wrap">
+  <!-- Squarespace-Style Minimalist Navbar -->
+  <header class="sq-nav">
+    <div class="sq-nav-inner">
       
-      <!-- Logo / Brand -->
-      <a href="/" class="brand">
-        <div class="brand-symbol">A</div>
-        <div class="brand-text">AETHELGARD</div>
-        <span class="brand-tag">CLASSIFIED LEAKS</span>
+      <!-- Brand -->
+      <a href="/" class="sq-brand">
+        <span class="sq-brand-title">Aethelgard</span>
+        <span class="sq-brand-badge">Node ATG-01</span>
       </a>
 
-      <!-- Menu Items -->
-      <nav class="nav-menu">
-        <a href="/" class="nav-link {% if request.url.path == '/' %}active{% endif %}">Archive Search</a>
-        <a href="/flights" class="nav-link {% if request.url.path == '/flights' %}active{% endif %}">Flight Logs</a>
-        <a href="/photos" class="nav-link {% if request.url.path == '/photos' %}active{% endif %}">
-          {% if current_user %}Evidence Photos{% else %}🔒 Evidence Photos{% endif %}
+      <!-- Navigation Links -->
+      <nav class="sq-menu">
+        <a href="/" class="sq-menu-link {% if request.url.path == '/' %}active{% endif %}">Archive Search</a>
+        <a href="/flights" class="sq-menu-link {% if request.url.path == '/flights' %}active{% endif %}">Flight Manifests</a>
+        <a href="/photos" class="sq-menu-link {% if request.url.path == '/photos' %}active{% endif %}">
+          {% if current_user %}Evidence Vault{% else %}Evidence Vault (Locked){% endif %}
         </a>
-        <a href="/status" class="nav-link {% if request.url.path == '/status' %}active{% endif %}">Telemetry</a>
+        <a href="/status" class="sq-menu-link {% if request.url.path == '/status' %}active{% endif %}">Telemetry</a>
       </nav>
 
-      <!-- Right User Controls -->
-      <div class="nav-actions">
+      <!-- Action -->
+      <div class="sq-nav-action">
         {% if current_user %}
-          <span style="font-size: 13px; font-weight: 600; color: var(--accent-emerald);">● {{ current_user.username }}</span>
-          <a href="/logout" class="btn btn-danger" style="padding: 6px 14px; font-size: 13px;">Sign Out</a>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--accent-green);">{{ current_user.username }}</span>
+          <a href="/logout" class="sq-btn sq-btn-danger" style="padding: 8px 18px; font-size: 12px;">Sign Out</a>
         {% else %}
-          <a href="/login" class="btn btn-primary" style="padding: 6px 16px; font-size: 13px;">Sign In</a>
+          <a href="/login" class="sq-btn sq-btn-primary" style="padding: 8px 22px; font-size: 12px;">Sign In</a>
         {% endif %}
       </div>
 
     </div>
   </header>
 
-  <!-- Main Content Stage -->
-  <main class="main-wrapper">
+  <!-- Main Container -->
+  <main class="sq-container">
     {% block content %}{% endblock %}
   </main>
 

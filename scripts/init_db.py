@@ -298,6 +298,24 @@ INSTRUCTIONS FOR DISPATCH LEAD:
             "CONFIDENTIAL",
             "Nightwatch camera feed CAM-5 capturing private yacht Nightstar docked at the secluded access pier. FLAG_5_MEDIA_VAULT: flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}",
         ),
+        (
+            "FLIGHT DECK: Gulfstream N708AG Cockpit Avionics",
+            "AVIONICS LOG",
+            "/static/images/private_cockpit.jpg",
+            "2024-10-25 21:14:00 UTC",
+            "FL380 / TRANSIT WAYPOINT TITAN",
+            "RESTRICTED",
+            "Cockpit flight management display showing deactivated secondary transponder beacon prior to island descent.",
+        ),
+        (
+            "RESIDENCE: Site Bravo Cliffside Lounge & Quarters",
+            "ESTATE INTERIOR",
+            "/static/images/villa_interior.jpg",
+            "2024-10-27 19:20:00 UTC",
+            "MAIN COMPOUND / SECTOR 01",
+            "CONFIDENTIAL",
+            "Interior architectural capture of executive lounge overlooking coastal waters. Private meeting sanctuary.",
+        ),
     ]
     cursor.executemany(
         """

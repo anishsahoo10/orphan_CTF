@@ -1,35 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 460px; margin: 40px auto;">
+<div style="max-width: 440px; margin: 48px auto;">
   
-  <div class="big-hero" style="text-align: center; margin-bottom: 24px;">
-    <h1 class="big-heading" style="font-size: 32px;">Executive Sign In</h1>
-    <p class="hero-sub" style="font-size: 14px;">
-      Authenticate with your operator credentials to unlock the Classified Surveillance Vault.
+  <div class="sq-hero" style="text-align: center; margin-bottom: 32px;">
+    <div class="sq-kicker">Security Gateway</div>
+    <h1 class="sq-hero-title" style="font-size: 36px;">Sign In.</h1>
+    <p class="sq-hero-sub" style="font-size: 15px;">
+      Authenticate with your operator credentials to access the Classified Evidence Vault.
     </p>
   </div>
 
-  <div class="dossier-card" style="padding: 32px;">
+  <div class="sq-card" style="padding: 40px;">
     
     {% if error %}
-    <div style="background: rgba(244, 63, 94, 0.15); border: 1px solid var(--accent-rose); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
-      <div style="font-weight: 700; color: #fb7185; font-size: 13px;">{{ error }}</div>
+    <div style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;">
+      <div style="font-family: var(--font-mono); font-size: 13px; color: #ff6b6b;">{{ error }}</div>
     </div>
     {% endif %}
 
     <form method="POST" action="/login">
       <input type="hidden" name="next" value="{{ next_url }}">
 
-      <div style="margin-bottom: 18px;">
-        <label style="display: block; font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em;">
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">
           Username
         </label>
         <input 
           type="text" 
           name="username" 
-          class="search-big-input" 
-          style="width: 100%; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg-surface);"
+          class="sq-search-input" 
+          style="width: 100%; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg-surface); padding: 14px 18px;"
           placeholder="e.g. d.mercer" 
           value="{{ username | default('') }}" 
           required 
@@ -37,22 +38,22 @@
         >
       </div>
 
-      <div style="margin-bottom: 28px;">
-        <label style="display: block; font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em;">
+      <div style="margin-bottom: 36px;">
+        <label style="display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">
           Password
         </label>
         <input 
           type="password" 
           name="password" 
-          class="search-big-input" 
-          style="width: 100%; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg-surface);"
+          class="sq-search-input" 
+          style="width: 100%; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg-surface); padding: 14px 18px;"
           placeholder="••••••••••••" 
           required
         >
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 15px;">
-        AUTHENTICATE SESSION &rarr;
+      <button type="submit" class="sq-btn sq-btn-primary" style="width: 100%; padding: 14px; font-size: 14px;">
+        Authenticate Session &rarr;
       </button>
     </form>
 
