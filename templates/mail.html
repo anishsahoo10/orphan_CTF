@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Gmail Action Bar -->
+<div class="g-action-bar">
+  <div class="g-action-group">
+    <input type="checkbox" class="g-mail-checkbox" title="Select all">
+    <span style="cursor: pointer;" title="Refresh" onclick="location.reload();">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+      </svg>
+    </span>
+    <span style="font-size: 13px; font-weight: 500; color: var(--g-text-secondary); margin-left: 8px;">
+      Leaked Correspondence &bull; Inbox ({{ messages | length }})
+    </span>
+  </div>
+
+  <div style="font-size: 12px; color: var(--g-text-muted);">
+    1–{{ messages | length }} of {{ messages | length }}
+  </div>
+</div>
+
+<!-- SQL Exception Banner (For SQL Injection feedback) -->
+{% if sql_error %}
+<div class="g-error-banner">
+  <strong>[SQL PARSER EXCEPTION]</strong>
+  <div style="margin-top: 4px;">{{ sql_error }}</div>
+</div>
+{% endif %}
+
+<!-- Gmail Inbox Message Rows -->
+<div style="display: flex; flex-direction: column;">
+  {% for msg in messages %}
+  
+  <!-- Message Row -->
+  <div class="g-mail-row" id="row-{{ msg.id }}" onclick="toggleMail({{ msg.id }})">
+    <input type="checkbox" class="g-mail-checkbox" onclick="event.stopPropagation()">
+    <span class="g-mail-star {% if 'TOP SECRET' in msg.classification %}starred{% endif %}" onclick="event.stopPropagation()">★</span>
+    <div class="g-mail-sender">{{ msg.sender.split('@')[0] }}</div>
+    <div class="g-mail-content">
+      <span class="g-mail-subject">{{ msg.subject }}</span>
+      <span class="g-mail-snippet">- {{ msg.content[:80] }}...</span>
+    </div>
+    <div class="g-mail-date">{{ msg.timestamp.split(' ')[0] }}</div>
+  </div>
+
+  <!-- Expandable Email Detail Box -->
+  <div class="g-mail-detail" id="detail-{{ msg.id }}" style="display: none;">
+    <div class="g-mail-detail-header">
+      <div>
+        <h2 class="g-mail-detail-title">{{ msg.subject }}</h2>
+        <div style="margin-top: 6px;">
+          <span style="font-size: 11px; font-weight: 500; background: rgba(242, 139, 130, 0.15); color: var(--g-red); padding: 2px 8px; border-radius: 4px;">
+            {{ msg.classification }}
+          </span>
+        </div>
+      </div>
+      <button class="g-icon-btn" onclick="toggleMail({{ msg.id }})" title="Close">✕</button>
+    </div>
+
+    <div class="g-mail-meta-row">
+      <div class="g-avatar" style="width: 32px; height: 32px; font-size: 13px;">
+        {{ msg.sender[:1].upper() }}
+      </div>
+      <div>
+        <div style="font-weight: 500; color: #fff;">{{ msg.sender }}</div>
+        <div style="font-size: 12px; color: var(--g-text-secondary);">to {{ msg.recipient }} &bull; {{ msg.timestamp }}</div>
+      </div>
+    </div>
+
+    <div class="g-mail-body-box">{{ msg.content }}</div>
+  </div>
+
+  {% else %}
+  <div style="text-align: center; padding: 60px; color: var(--g-text-muted);">
+    No messages found matching your search.
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function toggleMail(id) {
+    var detail = document.getElementById("detail-" + id);
+    if (!detail) return;
+    if (detail.style.display === "none") {
+      detail.style.display = "block";
+    } else {
+      detail.style.display = "none";
+    }
+  }
+</script>
+{% endblock %}

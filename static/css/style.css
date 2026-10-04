@@ -1,39 +1,37 @@
 /* ==========================================================================
-   ORPHAN // STRONG COFFEE (LEGACY TELECOM) - RETRO-MODERN ARCHIVAL PORTAL
-   High contrast, crisp typography, clean layout, CCTV surveillance feeds.
+   AETHELGARD WORKSPACE // GOOGLE SUITE / GMAIL HIGH-FIDELITY CLONE THEME
+   Replicating the clean, iconic Google Workspace (Gmail / Photos / Flights) UI.
+   Dark Mode: #202124 surface, #2d2f31 cards, #8ab4f8 Google blue, #e8eaed text.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
 
 :root {
-  /* High contrast dark palette */
-  --bg-app: #080c13;
-  --bg-surface: #0e131d;
-  --bg-panel: #141b27;
-  --bg-panel-alt: #1a2232;
-  --bg-panel-hover: #1f2a3d;
-  --bg-input: #0a0e16;
+  /* Google Dark Mode Palette */
+  --g-bg: #202124;
+  --g-surface: #2d2f31;
+  --g-surface-hover: #35373a;
+  --g-surface-active: #3c4043;
+  --g-border: #3c4043;
+  --g-border-subtle: #2d2f31;
 
-  --border-subtle: #1e2738;
-  --border-main: #2b374d;
-  --border-bright: #3f4f6e;
-  --border-focus: #38bdf8;
+  /* Typography */
+  --g-text-primary: #e8eaed;
+  --g-text-secondary: #9aa0a6;
+  --g-text-muted: #80868b;
+  --g-text-link: #8ab4f8;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-link: #38bdf8;
+  /* Google Brand Colors */
+  --g-blue: #8ab4f8;
+  --g-blue-hover: #aecbfa;
+  --g-blue-bg: rgba(138, 180, 248, 0.12);
+  --g-red: #f28b82;
+  --g-yellow: #fdd663;
+  --g-green: #81c995;
 
-  --accent-amber: #f59e0b;
-  --accent-amber-glow: rgba(245, 158, 11, 0.15);
-  --accent-green: #10b981;
-  --accent-green-bright: #34d399;
-  --accent-green-glow: rgba(16, 185, 129, 0.15);
-  --accent-red: #f43f5e;
-  --accent-cyan: #06b6d4;
-
-  --font-ui: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-main: "Google Sans", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Roboto Mono", Consolas, monospace;
 }
 
 * {
@@ -42,713 +40,591 @@
   padding: 0;
 }
 
-html, body {
-  background-color: var(--bg-app);
-  color: var(--text-primary);
-  font-family: var(--font-ui);
+body {
+  background-color: var(--g-bg);
+  color: var(--g-text-primary);
+  font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.6;
-  min-height: 100vh;
+  line-height: 1.4;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
 }
 
 a {
-  color: var(--text-link);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-a:hover {
-  color: #7dd3fc;
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   TOP BAR
-   ========================================================================== */
-.top-system-bar {
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-main);
-  padding: 10px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.top-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.top-brand-badge {
-  color: var(--text-primary);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  font-family: var(--font-ui);
-  font-size: 13px;
-}
-
-.node-pill {
-  background: #14221c;
-  color: var(--accent-green-bright);
-  border: 1px solid #059669;
-  padding: 2px 10px;
-  font-weight: 600;
-  border-radius: 3px;
-  font-size: 11px;
-}
-
-.top-bar-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.live-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--accent-green-bright);
-}
-
-.live-indicator::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--accent-green-bright);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent-green-bright);
-}
-
-/* ==========================================================================
-   PORTAL LAYOUT (Sidebar + Main Stage)
-   ========================================================================== */
-.portal-container {
-  display: grid;
-  grid-template-columns: 290px 1fr;
-  min-height: calc(100vh - 46px);
-}
-
-@media (max-width: 980px) {
-  .portal-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ==========================================================================
-   SIDEBAR
-   ========================================================================== */
-.portal-sidebar {
-  background-color: var(--bg-surface);
-  border-right: 1px solid var(--border-main);
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar-branding {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.brand-text h2 {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--text-primary);
-  text-transform: uppercase;
-}
-
-.brand-text p {
-  font-size: 11px;
-  color: var(--accent-amber);
-  font-family: var(--font-mono);
-  font-weight: 500;
-}
-
-/* CCTV Monitor Card */
-.cctv-card {
-  background: #000;
-  border: 1px solid var(--border-main);
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.cctv-header {
-  background: #14171d;
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 6px 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-secondary);
-}
-
-.cctv-rec {
-  color: var(--accent-red);
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.cctv-rec::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--accent-red);
-  border-radius: 50%;
-  animation: pulse-red 1.5s infinite;
-}
-
-@keyframes pulse-red {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.cctv-screen {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  background: #000;
-  overflow: hidden;
-}
-
-.cctv-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.15) brightness(0.95);
-  display: block;
-}
-
-.cctv-overlay-text {
-  position: absolute;
-  bottom: 6px;
-  left: 8px;
-  right: 8px;
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.75);
-  padding: 2px 6px;
-  border-radius: 2px;
-}
-
-/* Sidebar Navigation */
-.sidebar-section-title {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-  padding-left: 4px;
-}
-
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.sidebar-nav-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 12px;
-  border: 1px solid transparent;
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-family: var(--font-mono);
-  border-radius: 4px;
-  transition: all 0.15s ease;
-}
-
-.sidebar-nav-item:hover {
-  background: var(--bg-panel);
-  border-color: var(--border-subtle);
-  color: var(--text-primary);
+  color: inherit;
   text-decoration: none;
 }
 
-.sidebar-nav-item.active {
-  background: #152233;
-  border-color: #2b4365;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.sidebar-nav-item .badge {
-  font-size: 10px;
-  padding: 1px 6px;
-  background: #0f1622;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  border-radius: 2px;
-}
-
-/* Sidebar Specs Card */
-.sidebar-specs {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-subtle);
-  padding: 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  border-radius: 4px;
-}
-
-.sidebar-specs .spec-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 0;
-  border-bottom: 1px dotted var(--border-subtle);
-}
-
-.sidebar-specs .spec-row:last-child {
-  border-bottom: none;
-}
-
-.sidebar-specs .lbl {
-  color: var(--text-muted);
-}
-
-.sidebar-specs .val {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
 /* ==========================================================================
-   MAIN WORKSPACE
+   GOOGLE TOP APP BAR (Search, Logo, Apps Launcher)
    ========================================================================== */
-.portal-main {
-  background-color: var(--bg-app);
-  padding: 24px 32px 60px 32px;
-  overflow-y: auto;
-}
-
-.breadcrumb-bar {
+.g-header {
+  height: 64px;
+  min-height: 64px;
+  background-color: var(--g-bg);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-bottom: 16px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.breadcrumb-trail a {
-  color: var(--text-secondary);
-}
-
-.breadcrumb-trail a:hover {
-  color: var(--text-primary);
-}
-
-/* Page Header Row */
-.page-header-row {
-  display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--g-border);
   gap: 16px;
 }
 
-.page-title-group h1 {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
+.g-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 240px;
+}
+
+.g-menu-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--g-text-secondary);
+}
+
+.g-menu-btn:hover {
+  background-color: var(--g-surface-hover);
+  color: var(--g-text-primary);
+}
+
+.g-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.g-logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.g-logo-text {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--g-text-primary);
   letter-spacing: -0.02em;
 }
 
-.page-title-group p {
+.g-logo-sub {
   font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
+  color: var(--g-text-secondary);
+  margin-left: 2px;
+  font-weight: 400;
 }
 
-/* Action Buttons */
-.btn {
+/* Google Centered Search Bar */
+.g-search-center {
+  flex: 1;
+  max-width: 720px;
+  position: relative;
+}
+
+.g-search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--g-surface);
+  border-radius: 24px;
+  height: 46px;
+  padding: 0 16px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.g-search-box:focus-within {
+  background-color: #303134;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.g-search-icon {
+  color: var(--g-text-secondary);
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.g-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--g-text-primary);
+}
+
+.g-search-input::placeholder {
+  color: var(--g-text-muted);
+}
+
+.g-search-clear {
+  color: var(--g-text-secondary);
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.g-search-clear:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Google Right Controls (Apps, Profile, Status) */
+.g-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 220px;
+  justify-content: flex-end;
+}
+
+.g-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--g-text-secondary);
+  position: relative;
+}
+
+.g-icon-btn:hover {
+  background-color: var(--g-surface-hover);
+  color: var(--g-text-primary);
+}
+
+.g-apps-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 280px;
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  z-index: 200;
+}
+
+.g-apps-dropdown.show {
+  display: grid;
+}
+
+.g-app-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+
+.g-app-tile:hover {
+  background: var(--g-surface-hover);
+}
+
+.g-app-tile span {
+  font-size: 11px;
+  color: var(--g-text-primary);
+}
+
+.g-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: #fff;
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   APP SHELL (Collapsible Sidebar + Main View)
+   ========================================================================== */
+.g-shell {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Google Left Sidebar */
+.g-sidebar {
+  width: 256px;
+  background-color: var(--g-bg);
+  padding: 12px 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.g-compose-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--bg-panel-alt);
-  border: 1px solid var(--border-bright);
-  color: var(--text-primary);
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
+  gap: 12px;
+  padding: 0 24px;
+  height: 52px;
+  background-color: #c2e7ff;
+  color: #001d35;
+  border-radius: 16px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 4px 0 16px 12px;
   cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.15s ease;
-  font-family: var(--font-ui);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
+  transition: box-shadow 0.2s;
+  width: fit-content;
 }
 
-.btn:hover {
-  background-color: var(--bg-panel-hover);
-  border-color: #64748b;
-  text-decoration: none;
+.g-compose-btn:hover {
+  box-shadow: 0 2px 6px 2px rgba(0,0,0,0.3);
 }
 
-.btn-primary {
-  background-color: var(--accent-amber);
-  border-color: #d97706;
-  color: #000;
+.g-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 24px;
+  height: 36px;
+  border-radius: 0 18px 18px 0;
+  color: var(--g-text-secondary);
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.g-nav-link:hover {
+  background-color: var(--g-surface-hover);
+  color: var(--g-text-primary);
+}
+
+.g-nav-link.active {
+  background-color: #004a77;
+  color: #c2e7ff;
   font-weight: 700;
 }
 
-.btn-primary:hover {
-  background-color: #f59e0b;
-  border-color: #fbbf24;
-  color: #000;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
-}
-
-.btn-block {
-  width: 100%;
-  justify-content: center;
-}
-
-/* Hero Visual Banner */
-.hero-visual-card {
-  position: relative;
-  background: #000;
-  border: 1px solid var(--border-main);
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 24px;
-}
-
-.hero-visual-img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-  filter: contrast(1.15) brightness(0.9);
-}
-
-.hero-visual-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(8, 12, 19, 0.95) 75%);
-  padding: 24px 28px;
+.g-nav-left {
   display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.g-nav-badge {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Main Workspace Viewport */
+.g-main-viewport {
+  flex: 1;
+  background-color: var(--g-surface);
+  border-radius: 16px 0 0 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   GMAIL-STYLE INBOX INTERFACE
+   ========================================================================== */
+.g-action-bar {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
+  border-bottom: 1px solid var(--g-border);
+  color: var(--g-text-secondary);
+  font-size: 13px;
+}
+
+.g-action-group {
+  display: flex;
+  align-items: center;
   gap: 14px;
 }
 
-.hero-visual-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.02em;
-}
-
-.hero-visual-subtitle {
-  font-size: 12px;
-  color: #94a3b8;
-  font-family: var(--font-mono);
-  margin-top: 4px;
-}
-
-/* Clean 4-Card Metric Grid (Clean, readable, zero clutter) */
-.metric-deck {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-@media (max-width: 900px) {
-  .metric-deck {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.metric-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-main);
-  padding: 16px 18px;
-  border-radius: 6px;
-}
-
-.metric-card-label {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 6px;
-}
-
-.metric-card-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  font-family: var(--font-ui);
-}
-
-/* Briefing Box */
-.briefing-box {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--border-main);
-  border-left: 4px solid var(--accent-amber);
-  padding: 16px 20px;
-  margin-bottom: 24px;
-  border-radius: 4px;
-  font-size: 13px;
-  color: #cbd5e1;
-  line-height: 1.6;
-}
-
-/* Modern Panels */
-.panel {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--border-main);
-  margin-bottom: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.panel-header {
-  background-color: var(--bg-panel-alt);
-  border-bottom: 1px solid var(--border-main);
-  padding: 12px 20px;
+.g-mail-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.panel-header .tag {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: normal;
-  color: var(--text-muted);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  padding: 2px 8px;
-  border-radius: 2px;
-}
-
-.panel-body {
-  padding: 20px;
-}
-
-/* High Readability Tables */
-.table-responsive {
-  overflow-x: auto;
-}
-
-.portal-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  text-align: left;
-}
-
-.portal-table th {
-  background-color: var(--bg-panel-alt);
-  color: var(--text-secondary);
-  padding: 11px 16px;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.portal-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  vertical-align: middle;
-}
-
-.portal-table tr:hover td {
-  background-color: var(--bg-panel-hover);
-}
-
-.portal-table td.mono {
-  font-family: var(--font-mono);
-  font-size: 12px;
-}
-
-.portal-table td.dim {
-  color: var(--text-secondary);
-}
-
-/* Status Chips */
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  font-size: 11px;
-  font-family: var(--font-mono);
-  font-weight: 600;
-  border-radius: 3px;
-}
-
-.status-chip.active {
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: var(--accent-green-bright);
-}
-
-.status-chip.alert {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  color: var(--accent-amber);
-}
-
-.status-chip.danger {
-  background: rgba(244, 63, 94, 0.15);
-  border: 1px solid rgba(244, 63, 94, 0.4);
-  color: var(--accent-red);
-}
-
-.status-chip.muted {
-  background: #1e293b;
-  border: 1px solid var(--border-bright);
-  color: var(--text-secondary);
-}
-
-/* Grid Layouts */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 860px) {
-  .grid-2, .grid-3 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Key-Value Tables */
-.kv-table {
-  width: 100%;
-  font-size: 13px;
-}
-
-.kv-table .row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.kv-table .row:last-child {
-  border-bottom: none;
-}
-
-.kv-table .k {
-  color: var(--text-secondary);
-}
-
-.kv-table .v {
-  font-family: var(--font-mono);
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-/* Document Reader */
-.document-reader-box {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-main);
-  padding: 24px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.7;
-  color: #e2e8f0;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* Form Styles */
-.auth-panel {
-  max-width: 440px;
-  margin: 30px auto;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-main);
-  border-radius: 6px;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
-  font-family: var(--font-mono);
-}
-
-.form-input {
-  width: 100%;
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-bright);
-  color: var(--text-primary);
-  font-family: var(--font-mono);
+  padding: 0 16px;
+  height: 44px;
+  border-bottom: 1px solid var(--g-border-subtle);
+  cursor: pointer;
   font-size: 14px;
-  padding: 10px 14px;
-  outline: none;
-  border-radius: 4px;
-  transition: border-color 0.15s ease;
+  transition: background 0.1s, box-shadow 0.1s;
 }
 
-.form-input:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+.g-mail-row:hover {
+  background-color: var(--g-surface-hover);
+  box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
 }
 
-/* Footer */
-.portal-footer {
-  margin-top: 40px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border-subtle);
+.g-mail-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  accent-color: var(--g-blue);
+  cursor: pointer;
+}
+
+.g-mail-star {
+  color: var(--g-text-muted);
+  margin-right: 14px;
+  cursor: pointer;
+}
+
+.g-mail-star.starred {
+  color: var(--g-yellow);
+}
+
+.g-mail-sender {
+  width: 180px;
+  font-family: var(--font-main);
+  font-weight: 500;
+  color: var(--g-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.g-mail-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 16px;
+}
+
+.g-mail-subject {
+  font-weight: 500;
+  color: var(--g-text-primary);
+}
+
+.g-mail-snippet {
+  color: var(--g-text-secondary);
+  font-weight: 400;
+}
+
+.g-mail-date {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--g-text-secondary);
+  white-space: nowrap;
+}
+
+/* Expanded Mail View */
+.g-mail-detail {
+  padding: 24px;
+  background: var(--g-surface);
+  border-bottom: 1px solid var(--g-border);
+}
+
+.g-mail-detail-header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.g-mail-detail-title {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--g-text-primary);
+}
+
+.g-mail-meta-row {
+  display: flex;
   align-items: center;
-  font-size: 11px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  flex-wrap: wrap;
   gap: 12px;
+  margin-bottom: 20px;
+}
+
+.g-mail-body-box {
+  background: #18191c;
+  border-radius: 8px;
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  border: 1px solid var(--g-border);
+}
+
+/* ==========================================================================
+   GOOGLE PHOTOS STYLE GALLERY
+   ========================================================================== */
+.g-photos-container {
+  padding: 24px 32px;
+}
+
+.g-photos-date-header {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--g-text-secondary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.g-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.g-photo-item {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+  border: 1px solid var(--g-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.g-photo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+.g-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.g-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.g-photo-title {
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.g-photo-coords {
+  align-self: flex-end;
+  background: rgba(0,0,0,0.7);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--g-blue);
+}
+
+/* ==========================================================================
+   GOOGLE FLIGHTS STYLE REGISTRY
+   ========================================================================== */
+.g-flights-container {
+  padding: 24px 32px;
+}
+
+.g-flight-card {
+  background: #282a2d;
+  border: 1px solid var(--g-border);
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  transition: background 0.15s;
+}
+
+.g-flight-card:hover {
+  background: var(--g-surface-hover);
+}
+
+.g-flight-route {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.g-airport-code {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--g-text-primary);
+}
+
+.g-flight-arrow {
+  color: var(--g-blue);
+  font-size: 16px;
+}
+
+.g-flight-aircraft {
+  color: var(--g-text-secondary);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.g-flight-status-pill {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(129, 201, 149, 0.15);
+  color: var(--g-green);
+  border: 1px solid rgba(129, 201, 149, 0.3);
+}
+
+/* Modern Error Banner (for SQLi) */
+.g-error-banner {
+  margin: 16px 24px;
+  background: rgba(242, 139, 130, 0.12);
+  border: 1px solid var(--g-red);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--g-red);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .g-sidebar { display: none; }
+  .g-main-viewport { border-radius: 0; }
+  .g-mail-sender { width: 100px; }
 }

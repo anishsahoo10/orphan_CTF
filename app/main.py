@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, Request, status
+from fastapi import FastAPI, HTTPException, Request, Response, status
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -35,13 +35,21 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Strong Coffee (LEGACY TELECOM)",
-    description="Internal Resource Node SCF-NODE-07",
-    version="1.4.2-legacy",
-    docs_url=None,  # Old legacy internal servers don't display Swagger UI
+    title="AETHELGARD ARCHIVES",
+    description="The Archipelago Network // Investigative Leak Portal",
+    version="2.1.0-leak",
+    docs_url=None,
     redoc_url=None,
     lifespan=lifespan,
 )
+
+# Custom Middleware to inject Flag 1 header into all HTTP responses
+@app.middleware("http")
+async def add_ctf_recon_header(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Archipelago-Node"] = "flag{4rch1p3l4g0_r3c0n_f1ng3rpr1nt_88a1}"
+    response.headers["X-Node-Origin"] = "ATG-SITE-BRAVO-MEDITERRANEAN"
+    return response
 
 # Mount Session Middleware
 app.add_middleware(
@@ -67,19 +75,26 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
 async def robots_txt():
-    """Standard robots.txt with reconnaissance hints for CTF enumeration."""
-    return "User-agent: *\nDisallow: /api/\nDisallow: /documents/\nDisallow: /dashboard/\n"
+    """Robots.txt directing recon scanners to leaked compartments."""
+    return (
+        "User-agent: *\n"
+        "Disallow: /api/\n"
+        "Disallow: /mail/\n"
+        "Disallow: /flights/\n"
+        "Disallow: /photos/\n"
+        "Disallow: /dashboard/\n"
+    )
 
 
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, exc: HTTPException):
-    """Custom 404 handler tailored for the old abandoned system aesthetic."""
+    """Custom 404 handler tailored for the clean investigative archive look."""
     if request.url.path.startswith("/api/"):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={
-                "error": "RESOURCE_NOT_FOUND",
-                "reference": "SCF-07",
+                "error": "RESOURCE_UNINDEXED",
+                "reference": "ATG-01",
                 "detail": str(exc.detail) if hasattr(exc, "detail") else "Not Found",
             },
         )
@@ -87,12 +102,12 @@ async def custom_404_handler(request: Request, exc: HTTPException):
         request=request,
         name="error.html",
         context={
-            "page_title": "REQUEST FAILED",
+            "page_title": "ARCHIVE ENTRY NOT FOUND",
             "org_name": ORG_NAME,
             "node_id": NODE_ID,
-            "error_code": "NODE_UNAVAILABLE",
-            "error_detail": getattr(exc, "detail", "The requested node path or resource could not be resolved."),
-            "reference": "SCF-07",
+            "error_code": "ENTRY_UNINDEXED",
+            "error_detail": getattr(exc, "detail", "The requested leaked dossier or manifest could not be retrieved."),
+            "reference": "ATG-01",
             "system_status": SYSTEM_STATUS,
             "current_user": None,
         },
@@ -102,26 +117,17 @@ async def custom_404_handler(request: Request, exc: HTTPException):
 
 @app.exception_handler(500)
 async def custom_500_handler(request: Request, exc: Exception):
-    """Custom 500 internal server error handler."""
-    if request.url.path.startswith("/api/"):
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "error": "SUBSYSTEM_FAULT",
-                "reference": "SCF-07",
-                "detail": "Internal processing exception in legacy handler.",
-            },
-        )
+    """Custom 500 handler."""
     return templates.TemplateResponse(
         request=request,
         name="error.html",
         context={
-            "page_title": "SUBSYSTEM FAULT",
+            "page_title": "ARCHIVE PROCESSING FAULT",
             "org_name": ORG_NAME,
             "node_id": NODE_ID,
-            "error_code": "SUBSYSTEM_FAULT",
-            "error_detail": "Internal processing exception in legacy handler routine.",
-            "reference": "SCF-07",
+            "error_code": "DISPATCH_FAULT",
+            "error_detail": "Internal database or parser processing exception.",
+            "reference": "ATG-01",
             "system_status": SYSTEM_STATUS,
             "current_user": None,
         },

@@ -1,112 +1,104 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Page Header -->
-<div class="page-header-row">
-  <div class="page-title-group">
-    <h1>INTERNAL RESOURCE NODE &bull; {{ node_id }}</h1>
-    <p>{{ org_name }} &bull; Legacy telecommunications staging server.</p>
+<div style="padding: 28px 36px;">
+  
+  <!-- Workspace Welcome Header -->
+  <div style="margin-bottom: 28px;">
+    <h1 style="font-family: var(--font-main); font-size: 24px; font-weight: 500; color: #fff;">
+      Aethelgard Workspace
+    </h1>
+    <p style="font-size: 14px; color: var(--g-text-secondary); margin-top: 4px;">
+      Exfiltrated operational archive for Site Bravo &bull; Aethelgard Holdings
+    </p>
   </div>
-  <div>
-    {% if not current_user %}
-      <a href="/login" class="btn btn-primary">AUTHENTICATE OPERATOR &rarr;</a>
-    {% else %}
-      <a href="/dashboard" class="btn btn-primary">OPEN EMPLOYEE DASHBOARD &rarr;</a>
-    {% endif %}
-  </div>
-</div>
 
-<!-- Hero Photography Card (Stenciled Strong Coffee Telecom Server Rack) -->
-<div class="hero-visual-card">
-  <img src="/static/images/strong_coffee_server.jpg" alt="Strong Coffee Telecom Server Vault" class="hero-visual-img">
-  <div class="hero-visual-overlay">
-    <div>
-      <div class="hero-visual-title">PHYSICAL FACILITY // SECTOR-B TELECOM CAGE</div>
-      <div class="hero-visual-subtitle">HOST IP: 10.0.4.7 &bull; RACK-04 &bull; AUTHORIZED PERSONNEL ONLY</div>
-    </div>
-    <span class="status-chip active">● NODE ACTIVE</span>
-  </div>
-</div>
-
-<!-- Clean 4-Card Status Deck -->
-<div class="metric-deck">
-  <div class="metric-card">
-    <div class="metric-card-label">Node Identifier</div>
-    <div class="metric-card-value" style="color: var(--accent-green-bright);">{{ node_id }}</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-card-label">Subsystem Status</div>
-    <div class="metric-card-value">
-      <span class="status-chip active">{{ system_status }}</span>
-    </div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-card-label">Custodian Record</div>
-    <div class="metric-card-value">
-      <span class="status-chip alert">{{ administrator }}</span>
-    </div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-card-label">Last Maintenance</div>
-    <div class="metric-card-value">
-      <span class="status-chip alert">{{ last_maintenance }}</span>
-    </div>
-  </div>
-</div>
-
-<!-- Concise Narrative Briefing -->
-<div class="briefing-box">
-  <strong>[SECURITY NOTICE]</strong> Discovered during a routine infrastructure audit. Staging node <code>{{ node_id }}</code> was provisioned for legacy telecommunications routing and archival storage. Custodian records have been unassigned since the 2019 departmental dissolution. External WAN ingress remains physically suspended.
-</div>
-
-<!-- Subsystems Quick Status Table -->
-<div class="panel">
-  <div class="panel-header">
-    <span>OPERATIONAL SUBSYSTEMS &amp; LOCAL DAEMONS</span>
-    <span class="tag">{{ services | length }} DAEMONS BOUND</span>
-  </div>
-  <div class="panel-body" style="padding: 0;">
-    <div class="table-responsive">
-      <table class="portal-table">
-        <thead>
-          <tr>
-            <th>DAEMON NAME</th>
-            <th>SERVICE REVISION</th>
-            <th>STATUS</th>
-            <th>HEALTH CHECK</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for s in services %}
-          <tr>
-            <td><strong>{{ s.name }}</strong></td>
-            <td class="mono dim">{{ s.version }}</td>
-            <td><span class="status-chip active">● {{ s.status }}</span></td>
-            <td class="mono dim">RESPONDING (LOOPBACK)</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- Direct Access Actions -->
-<div style="display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap;">
-  <a href="/documents" class="btn" style="flex: 1; justify-content: center;">
-    &rarr; BROWSE ARCHIVAL DOCUMENTS ({{ doc_count }} RECORDS)
-  </a>
-  <a href="/status" class="btn" style="flex: 1; justify-content: center;">
-    &rarr; VIEW SYSTEM DIAGNOSTICS &amp; TELEMETRY
-  </a>
-  {% if not current_user %}
-    <a href="/login" class="btn btn-primary" style="flex: 1; justify-content: center;">
-      &rarr; CONSOLE LOGIN
+  <!-- Google App Gateway Cards (Mail, Flights, Photos) -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 36px;">
+    
+    <!-- App 1: Mail -->
+    <a href="/mail" style="background: var(--g-surface-hover); border: 1px solid var(--g-border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='var(--g-blue)'" onmouseout="this.style.borderColor='var(--g-border)'">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <span style="font-size: 28px;">✉️</span>
+          <span class="g-flight-status-pill">{{ mail_count }} Mails</span>
+        </div>
+        <h2 style="font-family: var(--font-main); font-size: 16px; font-weight: 500; color: #fff;">AMail (Correspondence)</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 6px; line-height: 1.5;">
+          Searchable executive emails, maritime radar logs, and encrypted dispatch memos.
+        </p>
+      </div>
+      <div style="margin-top: 20px; font-size: 13px; font-weight: 500; color: var(--g-blue);">
+        Open Inbox &rarr;
+      </div>
     </a>
-  {% else %}
-    <a href="/dashboard" class="btn btn-primary" style="flex: 1; justify-content: center;">
-      &rarr; EMPLOYEE DASHBOARD
+
+    <!-- App 2: Flights -->
+    <a href="/flights" style="background: var(--g-surface-hover); border: 1px solid var(--g-border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='var(--g-yellow)'" onmouseout="this.style.borderColor='var(--g-border)'">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <span style="font-size: 28px;">✈️</span>
+          <span class="g-flight-status-pill" style="color: var(--g-yellow); border-color: rgba(253, 214, 99, 0.3);">{{ flight_count }} Charters</span>
+        </div>
+        <h2 style="font-family: var(--font-main); font-size: 16px; font-weight: 500; color: #fff;">AFlights (Registry)</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 6px; line-height: 1.5;">
+          Private aviation manifests tracking tail numbers N708AG and regional island transfers.
+        </p>
+      </div>
+      <div style="margin-top: 20px; font-size: 13px; font-weight: 500; color: var(--g-yellow);">
+        View Flight Logs &rarr;
+      </div>
     </a>
-  {% endif %}
+
+    <!-- App 3: Photos -->
+    <a href="/photos" style="background: var(--g-surface-hover); border: 1px solid var(--g-border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='var(--g-green)'" onmouseout="this.style.borderColor='var(--g-border)'">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <span style="font-size: 28px;">🖼️</span>
+          <span class="g-flight-status-pill" style="color: var(--g-green); border-color: rgba(129, 201, 149, 0.3);">{{ photo_count }} Stills</span>
+        </div>
+        <h2 style="font-family: var(--font-main); font-size: 16px; font-weight: 500; color: #fff;">APhotos (Vault)</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 6px; line-height: 1.5;">
+          High-altitude drone surveillance and harbor perimeter camera captures.
+        </p>
+      </div>
+      <div style="margin-top: 20px; font-size: 13px; font-weight: 500; color: var(--g-green);">
+        Open Gallery &rarr;
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Recent Visual Evidence Previews -->
+  <div style="margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h3 style="font-family: var(--font-main); font-size: 16px; font-weight: 500; color: #fff;">Surveillance Records</h3>
+      <a href="/photos" style="font-size: 13px; color: var(--g-blue);">View All &rarr;</a>
+    </div>
+
+    <div class="g-photos-grid" style="grid-template-columns: repeat(3, 1fr);">
+      {% for p in [
+        {"url": "/static/images/island_estate.jpg", "title": "Site Bravo Estate", "tag": "AERIAL RECON", "coords": "36.4523N, 28.1876E"},
+        {"url": "/static/images/private_hangar.jpg", "title": "Hangar 07 Pre-Flight", "tag": "AIRFIELD OPS", "coords": "N708AG"},
+        {"url": "/static/images/yacht_marina.jpg", "title": "Marina Nightwatch", "tag": "MARITIME RADAR", "coords": "CAM-05"}
+      ] %}
+      <div class="g-photo-item" onclick="location.href='/photos'">
+        <img src="{{ p.url }}" alt="{{ p.title }}">
+        <div class="g-photo-overlay">
+          <div>
+            <span style="font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.7); color: var(--g-yellow); padding: 2px 6px; border-radius: 4px;">
+              {{ p.tag }}
+            </span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div class="g-photo-title">{{ p.title }}</div>
+            <div class="g-photo-coords">{{ p.coords }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
 </div>
 {% endblock %}

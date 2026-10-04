@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="g-photos-container">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h1 style="font-family: var(--font-main); font-size: 22px; font-weight: 500; color: #fff;">Surveillance &amp; Evidence Vault</h1>
+      <p style="font-size: 13px; color: var(--g-text-secondary); margin-top: 4px;">High-resolution drone reconnaissance and perimeter camera captures.</p>
+    </div>
+    <span class="g-flight-status-pill" style="background: rgba(242, 139, 130, 0.15); color: var(--g-red); border-color: rgba(242, 139, 130, 0.3);">
+      {{ photos | length }} Classified Stills
+    </span>
+  </div>
+
+  <!-- Timeline Header -->
+  <div class="g-photos-date-header">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
+    </svg>
+    <span>October 2024</span>
+  </div>
+
+  <!-- Google Photos Responsive Grid -->
+  <div class="g-photos-grid">
+    {% for p in photos %}
+    <div class="g-photo-item" onclick="window.open('{{ p.image_url }}', '_blank')">
+      <img src="{{ p.image_url }}" alt="{{ p.title }}">
+      <div class="g-photo-overlay">
+        <div>
+          <span style="font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.7); color: var(--g-yellow); padding: 2px 6px; border-radius: 4px;">
+            {{ p.category }}
+          </span>
+        </div>
+        <div>
+          <div class="g-photo-title">{{ p.title }}</div>
+          <div style="font-size: 11px; color: var(--g-text-secondary); margin-top: 2px;">{{ p.description }}</div>
+          <div class="g-photo-coords">{{ p.coordinates }}</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

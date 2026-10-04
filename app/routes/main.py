@@ -42,15 +42,19 @@ def get_base_context(request: Request, page_title: str) -> dict:
 
 @router.get("/", response_class=HTMLResponse)
 async def home_page(request: Request):
-    """Public-facing entry point to the legacy internal resource node."""
-    context = get_base_context(request, "INTERNAL RESOURCE NODE")
+    """Investigative portal gateway overview."""
+    context = get_base_context(request, "EXECUTIVE ARCHIVE")
     
-    services = query_all("SELECT name, status, version FROM system_services ORDER BY id ASC")
-    doc_count = query_one("SELECT COUNT(*) as count FROM documents")
+    mail_count = query_one("SELECT COUNT(*) as count FROM messages")
+    flight_count = query_one("SELECT COUNT(*) as count FROM flights")
+    photo_count = query_one("SELECT COUNT(*) as count FROM photos")
+    recent_flights = query_all("SELECT * FROM flights ORDER BY flight_date DESC LIMIT 3")
     
     context.update({
-        "services": services,
-        "doc_count": doc_count["count"] if doc_count else 0,
+        "mail_count": mail_count["count"] if mail_count else 0,
+        "flight_count": flight_count["count"] if flight_count else 0,
+        "photo_count": photo_count["count"] if photo_count else 0,
+        "recent_flights": recent_flights,
     })
     return templates.TemplateResponse(
         request=request,
@@ -59,18 +63,77 @@ async def home_page(request: Request):
     )
 
 
-@router.get("/status", response_class=HTMLResponse)
-async def status_page(request: Request):
-    """Detailed technical status of internal subsystems and daemons."""
-    context = get_base_context(request, "SYSTEM STATUS")
+@router.get("/mail", response_class=HTMLResponse)
+async def mail_page(request: Request, q: Optional[str] = None):
+    """Executive correspondence and call logs archive (Controlled SQL Injection point)."""
+    context = get_base_context(request, "EXECUTIVE CORRESPONDENCE")
     
-    services = query_all("SELECT * FROM system_services ORDER BY id ASC")
-    audit_count = query_one("SELECT COUNT(*) as count FROM audit_logs")
+    sql_error = None
+    if q is not None and q.strip() != "":
+        # Controlled SQL Injection point: unescaped search concatenation
+        try:
+            raw_sql = f"SELECT id, sender, recipient, timestamp, subject, classification, content FROM messages WHERE subject LIKE '%{q}%' OR content LIKE '%{q}%' OR sender LIKE '%{q}%' ORDER BY id ASC"
+            messages = query_all(raw_sql)
+        except Exception as e:
+            messages = []
+            sql_error = str(e)
+    else:
+        messages = query_all(
+            """
+            SELECT id, sender, recipient, timestamp, subject, classification, content
+            FROM messages
+            ORDER BY id ASC
+            """
+        )
     
     context.update({
-        "services": services,
-        "audit_count": audit_count["count"] if audit_count else 0,
+        "messages": messages,
+        "search_query": q or "",
+        "sql_error": sql_error,
     })
+    return templates.TemplateResponse(
+        request=request,
+        name="mail.html",
+        context=context,
+    )
+
+
+@router.get("/flights", response_class=HTMLResponse)
+async def flights_page(request: Request):
+    """Private aviation registry & passenger flight manifests."""
+    context = get_base_context(request, "PRIVATE AVIATION REGISTRY")
+    flights = query_all("SELECT * FROM flights ORDER BY flight_date DESC")
+    context.update({"flights": flights})
+    return templates.TemplateResponse(
+        request=request,
+        name="flights.html",
+        context=context,
+    )
+
+
+@router.get("/photos", response_class=HTMLResponse)
+async def photos_page(request: Request):
+    """Classified media vault containing surveillance stills and facility layouts."""
+    context = get_base_context(request, "SURVEILLANCE & MEDIA VAULT")
+    photos = query_all("SELECT * FROM photos ORDER BY id ASC")
+    context.update({"photos": photos})
+    return templates.TemplateResponse(
+        request=request,
+        name="photos.html",
+        context=context,
+    )
+
+
+@router.get("/documents", response_class=HTMLResponse)
+async def documents_redirect(request: Request):
+    """Redirect legacy document path to correspondence archive."""
+    return RedirectResponse(url="/mail", status_code=status.HTTP_302_FOUND)
+
+
+@router.get("/status", response_class=HTMLResponse)
+async def status_page(request: Request):
+    """Technical telemetry of node ATG-NODE-01."""
+    context = get_base_context(request, "NODE TELEMETRY")
     return templates.TemplateResponse(
         request=request,
         name="status.html",
@@ -78,71 +141,9 @@ async def status_page(request: Request):
     )
 
 
-@router.get("/documents", response_class=HTMLResponse)
-async def documents_page(request: Request, q: Optional[str] = None):
-    """Internal archival document repository with search capability (Controlled SQL Injection point)."""
-    context = get_base_context(request, "DOCUMENTATION ARCHIVE")
-    
-    sql_error = None
-    if q is not None and q.strip() != "":
-        # Controlled SQL Injection point: unescaped legacy query concatenation
-        try:
-            raw_sql = f"SELECT id, slug, title, classification, category, created_date, author FROM documents WHERE title LIKE '%{q}%' OR content LIKE '%{q}%' ORDER BY id ASC"
-            docs = query_all(raw_sql)
-        except Exception as e:
-            docs = []
-            sql_error = str(e)
-    else:
-        docs = query_all(
-            """
-            SELECT id, slug, title, classification, category, created_date, author
-            FROM documents
-            ORDER BY id ASC
-            """
-        )
-    
-    context.update({
-        "documents": docs,
-        "search_query": q or "",
-        "sql_error": sql_error,
-    })
-    return templates.TemplateResponse(
-        request=request,
-        name="documents.html",
-        context=context,
-    )
-
-
-@router.get("/documents/{slug}", response_class=HTMLResponse)
-async def document_detail_page(request: Request, slug: str):
-    """Individual archival document reader."""
-    doc = query_one(
-        """
-        SELECT id, slug, title, classification, category, content, created_date, author
-        FROM documents
-        WHERE slug = ?
-        """,
-        (slug,),
-    )
-    
-    if not doc:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"DOCUMENT '{slug}' NOT FOUND IN ARCHIVAL STORE",
-        )
-    
-    context = get_base_context(request, f"DOC // {doc['slug'].upper()}")
-    context.update({"document": doc})
-    return templates.TemplateResponse(
-        request=request,
-        name="document_detail.html",
-        context=context,
-    )
-
-
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_page(request: Request):
-    """Internal employee dashboard with dense tabular data (authentication required)."""
+    """Authenticated executive console (requires session login)."""
     user = get_current_user(request)
     if not user:
         return RedirectResponse(
@@ -150,18 +151,13 @@ async def dashboard_page(request: Request):
             status_code=status.HTTP_302_FOUND,
         )
 
-    context = get_base_context(request, "EMPLOYEE DASHBOARD")
-    
-    employees = query_all("SELECT * FROM employees ORDER BY employee_id ASC")
-    services = query_all("SELECT * FROM system_services ORDER BY id ASC")
-    documents = query_all("SELECT id, slug, title, classification, category, created_date FROM documents ORDER BY id ASC")
-    recent_logs = query_all("SELECT * FROM audit_logs ORDER BY id DESC LIMIT 10")
+    context = get_base_context(request, "EXECUTIVE CONSOLE")
+    users = query_all("SELECT id, username, role, created_at, last_login FROM users ORDER BY id ASC")
+    flags = query_all("SELECT flag_name, flag_value, description FROM system_flags ORDER BY id ASC")
     
     context.update({
-        "employees": employees,
-        "services": services,
-        "documents": documents,
-        "recent_logs": recent_logs,
+        "users": users,
+        "flags": flags,
     })
     return templates.TemplateResponse(
         request=request,
