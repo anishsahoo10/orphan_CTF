@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX HORIZON // CLASSIFIED AUDIT HINTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       GLOBAL RESET & ANTI-COPY ENFORCEMENT
+       ------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+    }
+
+    /* Block Print Output */
+    @media print {
+      html, body {
+        display: none !important;
+        visibility: hidden !important;
+        background: #000000 !important;
+      }
+    }
+
+    body {
+      background-color: #090a0d;
+      color: #d1d5db;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 40px 20px 80px 20px;
+      transition: filter 0.15s ease;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Security Status Banner */
+    .security-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #111318;
+      border: 1px solid #1f242e;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin-bottom: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #10b981;
+    }
+
+    .badge-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+
+    .security-tag {
+      color: #94a3b8;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #1f242e;
+      padding-bottom: 24px;
+    }
+
+    .sub-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #60a5fa;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .lead {
+      color: #9ca3af;
+      font-size: 1rem;
+      max-width: 720px;
+    }
+
+    /* Guidance Notice Box */
+    .guidance-box {
+      background: #131720;
+      border-left: 3px solid #3b82f6;
+      padding: 18px 24px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 40px;
+      font-size: 0.92rem;
+      color: #cbd5e1;
+    }
+
+    .guidance-box strong {
+      color: #ffffff;
+    }
+
+    /* Milestone Hint Section */
+    .phase-card {
+      background: #101217;
+      border: 1px solid #1e222a;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid #1a1e27;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .phase-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .phase-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #60a5fa;
+      letter-spacing: 0.05em;
+    }
+
+    .tier-block {
+      margin-bottom: 18px;
+    }
+
+    .tier-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .tier-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .tier-content {
+      font-size: 0.92rem;
+      color: #d1d5db;
+    }
+
+    .inquiry-prompt {
+      background: #0a0c10;
+      border: 1px solid #232834;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #93c5fd;
+      line-height: 1.5;
+    }
+
+    /* Diagnostic Checklist */
+    .checklist-card {
+      background: #101217;
+      border: 1px solid #1e222a;
+      border-radius: 12px;
+      padding: 28px;
+      margin-top: 40px;
+    }
+
+    .checklist-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    .check-bullet {
+      font-family: 'JetBrains Mono', monospace;
+      color: #3b82f6;
+      font-weight: 700;
+    }
+
+    /* -------------------------------------------------------------
+       ANTI-SCREENSHOT & BLACKOUT OVERLAY
+       ------------------------------------------------------------- */
+    #blackout-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
+      z-index: 9999999;
+      color: #ffffff;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    #blackout-overlay.active {
+      display: flex;
+    }
+
+    .blackout-box {
+      max-width: 540px;
+      border: 1px solid #27272a;
+      background: #09090b;
+      padding: 36px 32px;
+      border-radius: 12px;
+    }
+
+    .blackout-alert-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: #ef4444;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    .blackout-heading {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .blackout-text {
+      font-size: 0.9rem;
+      color: #a1a1aa;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-resume {
+      display: inline-block;
+      background: #ffffff;
+      color: #000000;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s ease;
+    }
+
+    .btn-resume:hover {
+      background: #e4e4e7;
+    }
+
+    /* Security Toast Notification */
+    #security-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #18181b;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      padding: 12px 20px;
+      border-radius: 6px;
+      z-index: 999998;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    #security-toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
+
+  <!-- Blackout Screen Overlay for Screenshot / Blur Protection -->
+  <div id="blackout-overlay">
+    <div class="blackout-box">
+      <div class="blackout-alert-title">SECURITY PROTOCOL ACTIVATED</div>
+      <div class="blackout-heading">DISPLAY SCREEN BLANKED OUT</div>
+      <p class="blackout-text">
+        An external screen capture tool, window blur event, or unauthorized capture shortcut was detected. The terminal display has been blacked out to protect classified intelligence.
+      </p>
+      <button class="btn-resume" id="resume-btn" onclick="restoreSession()">RESUME TERMINAL</button>
+    </div>
+  </div>
+
+  <!-- Security Notification Toast -->
+  <div id="security-toast">ACCESS DENIED: CLIPBOARD AND ACTION BLOCKED</div>
+
+  <div class="container">
+    
+    <!-- Top Security Status Bar -->
+    <div class="security-bar">
+      <div class="security-badge">
+        <span class="badge-indicator"></span>
+        <span>ANTI-EXFILTRATION ACTIVE</span>
+      </div>
+      <div class="security-tag">CLIPBOARD SHIELD: LOCKED</div>
+      <div class="security-tag">CAPTURE SENSOR: ENGAGED</div>
+      <div class="security-tag">NODE: APX-NODE-01</div>
+    </div>
+
+    <!-- Page Header -->
+    <header class="header">
+      <div class="sub-tag">MINISTRY OF DEFENSE // AUDIT INVESTIGATION</div>
+      <h1 class="title">PROJECT APEX HORIZON // CLASSIFIED FIELD HINTS</h1>
+      <p class="lead">
+        Tiered investigative hints for assessing the unacknowledged offshore aerospace telemetry node.
+      </p>
+    </header>
+
+    <!-- Operational Instructions -->
+    <div class="guidance-box">
+      <strong>Auditor Instruction:</strong> This terminal enforces strict anti-copy and capture countermeasures. Raw exploit strings and flags are deliberately omitted. If you are stuck, review the structured tiers or submit the <strong>Inquiry Prompt</strong> to an AI reasoning assistant to understand the underlying networking or operating system mechanics.
+    </div>
+
+    <!-- Phase 1: Signal Interception -->
+    <section class="phase-card">
+      <div class="phase-header">
+        <h2 class="phase-title">Phase 1: Signal Interception</h2>
+        <span class="phase-meta">MILESTONE 1 // RECONNAISSANCE</span>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 1: Surface Clue</div>
+        <p class="tier-content">
+          Do not rely solely on a graphical web browser. A web browser requests a page and renders only the response body. Examine what the web server transmits before the HTML body begins.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 2: Technical Vector</div>
+        <p class="tier-content">
+          HTTP transactions consist of two distinct sections: Headers (metadata, server version, custom tracking tags) and Body (rendered HTML). Misconfigured development servers often leak internal node identifiers in custom header attributes.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 3: Inquiry Prompt (For AI Guidance)</div>
+        <div class="inquiry-prompt">
+          In Linux command-line utilities such as curl, what command flag requests only the HTTP response headers from a remote server without downloading the HTML body, and why do developers leave custom headers like x-* in staging environments?
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 2: Operational Waypoints -->
+    <section class="phase-card">
+      <div class="phase-header">
+        <h2 class="phase-title">Phase 2: Operational Waypoints</h2>
+        <span class="phase-meta">MILESTONE 4 // OSINT & SENSITIVE DATA</span>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 1: Surface Clue</div>
+        <p class="tier-content">
+          Not all critical intelligence requires complex exploitation. Human error and rushed deployment schedules frequently result in sensitive internal memoranda being left in public view.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 2: Technical Vector</div>
+        <p class="tier-content">
+          Review every exposed record on the unauthenticated telemetry board. Technical contractors frequently mix mundane status announcements with operational deployment memos.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 3: Inquiry Prompt (For AI Guidance)</div>
+        <div class="inquiry-prompt">
+          In cybersecurity audits, what is Sensitive Information Disclosure (CWE-200), and what methodologies do auditors use to extract intelligence from publicly accessible technical memos and configuration notes?
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 3: Archive Query Manipulation -->
+    <section class="phase-card">
+      <div class="phase-header">
+        <h2 class="phase-title">Phase 3: Archive Query Manipulation</h2>
+        <span class="phase-meta">MILESTONE 2 // DATABASE LOGIC BYPASS</span>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 1: Surface Clue</div>
+        <p class="tier-content">
+          The search pill on the telemetry dashboard queries an internal relational database. How does a database decide whether to include or exclude a record from the search results?
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 2: Technical Vector</div>
+        <p class="tier-content">
+          The search mechanism builds a query dynamically. In SQL, search parameters are enclosed within delimiter characters. If an input can break out of those delimiters and introduce a condition that the database engine evaluates as unconditionally TRUE, the filter no longer restricts any rows.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 3: Inquiry Prompt (For AI Guidance)</div>
+        <div class="inquiry-prompt">
+          Explain the fundamental mechanics of a Boolean-based SQL Injection vulnerability in a search form. Specifically, how do string delimiters (quotes), boolean operators (OR), tautologies (1=1), and database comment syntax (--) interact to force a database into returning all records?
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 4: Visual Surveillance Vault -->
+    <section class="phase-card">
+      <div class="phase-header">
+        <h2 class="phase-title">Phase 4: Visual Surveillance Vault</h2>
+        <span class="phase-meta">MILESTONE 5 // AUTHENTICATED VAULT</span>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 1: Surface Clue</div>
+        <p class="tier-content">
+          Do not attempt password dictionary attacks or brute-force tools against the login portal. The defense contractor does not use default credentials.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 2: Technical Vector</div>
+        <p class="tier-content">
+          Security assessments rely on credential chaining. An exploit executed against one layer (such as the database in Phase 3) frequently produces credentials belonging to an authorized operator.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 3: Inquiry Prompt (For AI Guidance)</div>
+        <div class="inquiry-prompt">
+          In penetration testing, what is Credential Chaining? Once valid credentials for an internal user are recovered from a previous vulnerability, how should an auditor use them to elevate their situational awareness and access restricted administrative resources?
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 5: Mainframe Authority Override -->
+    <section class="phase-card">
+      <div class="phase-header">
+        <h2 class="phase-title">Phase 5: Mainframe Authority Override</h2>
+        <span class="phase-meta">MILESTONE 3 // ROOT PRIVILEGE ESCALATION</span>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 1: Surface Clue</div>
+        <p class="tier-content">
+          Establishing an SSH session with an engineer's account gives you standard user privileges. Standard users cannot read protected files in /root/. You must identify a path to elevate your authority to the root user.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 2: Technical Vector</div>
+        <p class="tier-content">
+          Inspect the administrative delegations assigned to your account using the system's delegation query command. If a user is permitted to execute a specific maintenance or diagnostic script with superuser privileges without entering a password, inspect the write permissions of that script file.
+        </p>
+      </div>
+      <div class="tier-block">
+        <div class="tier-label">Tier 3: Inquiry Prompt (For AI Guidance)</div>
+        <div class="inquiry-prompt">
+          In Linux privilege escalation, what is a Sudo Misconfiguration involving NOPASSWD? If sudo -l reveals that a low-privilege user can run a specific shell script as root, and the permissions on that script allow write access by the user, how can this trust relationship be leveraged to obtain an interactive root shell?
+        </div>
+      </div>
+    </section>
+
+    <!-- Verification Checklist -->
+    <div class="checklist-card">
+      <h3 class="checklist-title">Auditor Diagnostic Checklist</h3>
+      <div class="checklist-item">
+        <span class="check-bullet">&gt;</span>
+        <span>Verify your auditing workstation resides on the target subnet (192.168.0.0/24).</span>
+      </div>
+      <div class="checklist-item">
+        <span class="check-bullet">&gt;</span>
+        <span>Ensure your HTTP probes target port 8000 rather than standard port 80.</span>
+      </div>
+      <div class="checklist-item">
+        <span class="check-bullet">&gt;</span>
+        <span>In SQL query manipulation, confirm comment characters neutralize trailing query syntax.</span>
+      </div>
+      <div class="checklist-item">
+        <span class="check-bullet">&gt;</span>
+        <span>In Linux script alteration, verify the original interpreter directive (#!/bin/bash) remains intact.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- -------------------------------------------------------------
+       SECURITY ENGINE JAVASCRIPT
+       Enforces copy blocking, contextmenu denial, and screenshot blackout
+       ------------------------------------------------------------- -->
+  <script>
+    const blackout = document.getElementById('blackout-overlay');
+    const toast = document.getElementById('security-toast');
+    let toastTimeout = null;
+
+    function showSecurityToast(msg) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toast.textContent = msg || 'ACTION DENIED: SECURITY POLICY ENFORCED';
+      toast.classList.add('visible');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('visible');
+      }, 2500);
+    }
+
+    function triggerBlackout(reason) {
+      blackout.classList.add('active');
+      document.body.style.filter = 'blur(30px)';
+      // Clear clipboard to neutralize PrintScreen buffer
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('');
+        }
+      } catch (err) {}
+    }
+
+    function restoreSession() {
+      blackout.classList.remove('active');
+      document.body.style.filter = 'none';
+    }
+
+    // 1. Block Context Menu (Right Click)
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      showSecurityToast('CONTEXT MENU RESTRICTED');
+      return false;
+    });
+
+    // 2. Block Copy, Cut, Paste
+    document.addEventListener('copy', (e) => {
+      e.preventDefault();
+      showSecurityToast('CLIPBOARD EXFILTRATION PROHIBITED');
+      return false;
+    });
+
+    document.addEventListener('cut', (e) => {
+      e.preventDefault();
+      showSecurityToast('CLIPBOARD EXFILTRATION PROHIBITED');
+      return false;
+    });
+
+    document.addEventListener('paste', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // 3. Block Drag and Select
+    document.addEventListener('selectstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // 4. Keyboard Shortcuts Interceptor (DevTools, Print, Copy, Save, View-Source, PrintScreen)
+    window.addEventListener('keydown', (e) => {
+      // PrintScreen Key
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        e.preventDefault();
+        triggerBlackout('PrintScreen key pressed');
+        return false;
+      }
+
+      // Windows Snipping Tool (Win + Shift + S) or Mac (Cmd + Shift + 4 / 3)
+      if (e.shiftKey && (e.metaKey || (e.ctrlKey && e.key.toLowerCase() === 's'))) {
+        e.preventDefault();
+        triggerBlackout('Capture shortcut detected');
+        return false;
+      }
+
+      // F12 or Inspect shortcuts
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()))) {
+        e.preventDefault();
+        showSecurityToast('DEVELOPER TOOLS BLOCKED');
+        return false;
+      }
+
+      // Ctrl+U (View Source), Ctrl+S (Save), Ctrl+P (Print), Ctrl+A (Select All), Ctrl+C (Copy)
+      if ((e.ctrlKey || e.metaKey) && ['u', 's', 'p', 'a', 'c', 'x'].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+        if (e.key.toLowerCase() === 'p') {
+          triggerBlackout('Print capture blocked');
+        } else {
+          showSecurityToast('SHORTCUT COMBINATION RESTRICTED');
+        }
+        return false;
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        triggerBlackout('PrintScreen key released');
+      }
+    });
+
+    // 5. Anti-Screenshot via Window Focus Loss (Snipping Tool / ShareX focus steal)
+    window.addEventListener('blur', () => {
+      triggerBlackout('Window focus lost');
+    });
+
+    // 6. Visibility Change (Tab switch or screen recording backgrounding)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        triggerBlackout('Document visibility hidden');
+      }
+    });
+  </script>
+</body>
+</html>

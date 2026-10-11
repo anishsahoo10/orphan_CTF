@@ -26,6 +26,7 @@
           {% if current_user %}Evidence Vault{% else %}Evidence Vault (Locked){% endif %}
         </a>
         <a href="/status" class="sq-menu-link {% if request.url.path == '/status' %}active{% endif %}">Diagnostics</a>
+        <a href="/hint" class="sq-menu-link {% if request.url.path == '/hint' %}active{% endif %}">Field Hints</a>
       </nav>
 
       <!-- Action -->

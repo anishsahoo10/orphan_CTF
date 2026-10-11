@@ -83,8 +83,17 @@ def run_tests():
     assert "flag{cl4ss1f13d_fl1ght_m4n1f3st_v4ult_55f9}" in photos_res.text
     print("    [+] Logged-in user successfully unlocked photos gallery and retrieved Flag 5!")
 
+    # 9. Test /hint (Anti-Copy & Anti-Screenshot Protected Terminal)
+    print("\n[9] Testing GET /hint (Protected Field Hints)...")
+    hint_res = client.get("/hint")
+    assert hint_res.status_code == 200
+    assert "PROJECT APEX HORIZON // CLASSIFIED FIELD HINTS" in hint_res.text
+    assert "blackout-overlay" in hint_res.text
+    assert "user-select: none" in hint_res.text
+    print("    [+] /hint successfully serves protected anti-copy & blackout document.")
+
     print("\n=======================================================")
-    print(">>> ALL 8 CTF FUNCTIONAL & SECURITY TESTS PASSED! <<<")
+    print(">>> ALL 9 CTF FUNCTIONAL & SECURITY TESTS PASSED! <<<")
     print("=======================================================")
 
 if __name__ == "__main__":

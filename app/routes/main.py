@@ -1,11 +1,12 @@
 from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Request, status
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 
 from app.config import (
     ADMINISTRATOR,
+    BASE_DIR,
     DOCUMENTATION_STATUS,
     LAST_MAINTENANCE,
     LAST_SYSTEM_UPDATE,
@@ -167,3 +168,12 @@ async def dashboard_page(request: Request):
         name="dashboard.html",
         context=context,
     )
+
+
+@router.get("/hint")
+async def hint_page():
+    """Classified audit hints with anti-copy and blackout security."""
+    hint_path = BASE_DIR / "hint" / "index.html"
+    if not hint_path.exists():
+        raise HTTPException(status_code=404, detail="Hints not found")
+    return FileResponse(str(hint_path))
